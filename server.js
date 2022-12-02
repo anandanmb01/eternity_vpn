@@ -8,9 +8,17 @@ const passportConfig = require("./passport-config");
 const authRouter = require("./routes/auth");
 const apiRouter = require("./routes/api");
 const cors = require("cors");
+const path = require('path');
 
-global.clienturl = "http://localhost:3000";
-global.serverurl = "http://localhost:5000";
+
+// global.clienturl = "http://localhost:3000";
+// global.serverurl = "http://localhost:5000";
+
+// global.clienturl = process.env.SERVER_CLIENT_URL;
+// global.serverurl = process.env.SERVER_SERVER_URL;
+
+
+const port = process.env.PORT || 5000;
 
 const app = express();
 
@@ -26,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 app.use(express.static("public"));
+app.use(express.static(path.join(__dirname,"/client/build")));
 
 app.use(
   session({
@@ -40,7 +49,7 @@ app.use(passport.session());
 
 app.use(
   cors({
-    origin: global.clienturl,
+    origin: process.env.SERVER_CLIENT_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -60,16 +69,18 @@ app.use("/auth", authRouter);
 app.use("/api", apiRouter);
 
 //---------------------------Route-----------------------------------------//
-app.route("/").get((req, res) => {
-  res.render("home");
-});
 
 app.get("/api", (req, res) => {
   res.json({ status: "hello" });
 });
 
+app.route("*").get((req, res) => {
+  // res.render("home");
+  res.sendFile(path.join(__dirname,"/client/build/index.html"));
+});
+
 //---------------------------Server initilization--------------------------//
 
-app.listen(5000, () => {
-  console.log("server started on port 5000");
+app.listen(port, () => {
+  console.log(`server started on port ${port}`);
 });

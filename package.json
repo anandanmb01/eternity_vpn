@@ -16,5 +16,14 @@
     "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0",
     "vpncmd": "^0.0.2"
-  }
+  },
+  "scripts": {
+    "start": "node server.js",
+    "build":"yarn install&&cd client&&npm install&&npm run build"
+}
+
+
+
+
+  
 }

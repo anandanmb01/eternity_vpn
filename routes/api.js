@@ -19,7 +19,7 @@ router_api.post("/vpn/connect", (req, res) => {
         eval(req.body.hub_id)
         .executeCommand(`UserGet ${req.user.username}`)
         .then((resp) => {
-          console.log(resp);
+          // console.log(resp);
           res.json({
             redirect: false,
             data: resp,
@@ -35,7 +35,7 @@ router_api.post("/vpn/connect", (req, res) => {
 });
 
 router_api.post("/vpn/createuser",(req,res)=>{
-  console.log(req.body);
+  // console.log(req.body);
   eval(req.body.hub_id)
   .executeCommand(`UserCreate ${req.user.username} /GROUP:none /REALNAME:${req.user.name} /NOTE:${req.user.id}`)
   .then((resp) => {
@@ -54,7 +54,7 @@ router_api.post("/vpn/createuser",(req,res)=>{
 })
 
 router_api.post("/vpn/deleteuser",(req,res)=>{
-  console.log(req.body);
+  // console.log(req.body);
   eval(req.body.hub_id)
   .executeCommand(`UserDelete ${req.user.username}`)
   .then((resp) => {
@@ -70,7 +70,7 @@ router_api.post("/vpn/deleteuser",(req,res)=>{
 });
 
 router_api.post("/vpn/changeusrpsk",(req,res)=>{
-  console.log(req.body);
+  // console.log(req.body);
   eval(req.body.hub_id).executeCommand(`UserPasswordSet ${req.user.username} /PASSWORD:${req.body.password}`)
   .then((resp) => {
     res.json({

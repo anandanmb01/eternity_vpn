@@ -8,7 +8,7 @@ const passport=require("passport");
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:5000/auth/google/callback"
+    callbackURL: process.env.SERVER_SERVER_URL.concat("/auth/google/callback")
   },
   function(accessToken, refreshToken, profile, done) {
 
@@ -19,7 +19,7 @@ passport.use(new GoogleStrategy({
       email:profile.emails[0].value,
       photo:profile.photos[0].value
     }
-    console.log(usr);
+    // console.log(usr);
     done(null,usr)
   }
 ));
@@ -29,7 +29,7 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: "http://localhost:5000/auth/github/callback"
+  callbackURL: process.env.SERVER_SERVER_URL.concat("/auth/github/callback")
 },
 function(accessToken, refreshToken, profile, done) {
   const usr={
@@ -39,7 +39,7 @@ function(accessToken, refreshToken, profile, done) {
     photo:profile.photos[0].value,
     name:profile.displayName.split(" ").join("_")
   }
-    console.log(profile);
+    // console.log(profile);
     return done(null, usr);
 }
 ));

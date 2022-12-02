@@ -4,7 +4,7 @@ const VPNCMD = require("vpncmd");
 const vpncmd = new VPNCMD({
   bin: "vpnclient/vpncmd",
   address: process.env.IP,
-  port: process.env.PORT,
+  port: process.env.VPNPORT,
   password: process.env.VPN_MASTER_HUB_PASS,
   hub: process.env.MASTER_HUB,
 });
@@ -12,14 +12,14 @@ const vpncmd = new VPNCMD({
 const India__eternity_hub = new VPNCMD({
   bin: "vpnclient/vpncmd",
   address: process.env.IP,
-  port: process.env.PORT,
+  port: process.env.VPNPORT,
   password: process.env.VPN_HUB_PASS,
   hub: "eternity_hub",
 });
 const India__eternity_hub_01 = new VPNCMD({
   bin: "vpnclient/vpncmd",
   address: process.env.IP,
-  port: process.env.PORT,
+  port: process.env.VPNPORT,
   password: process.env.VPN_HUB_PASS,
   hub: "eternity_hub_01",
 });
@@ -27,7 +27,7 @@ const India__eternity_hub_01 = new VPNCMD({
 const India__eternity_hub_02 = new VPNCMD({
   bin: "vpnclient/vpncmd",
   address: process.env.IP,
-  port: process.env.PORT,
+  port: process.env.VPNPORT,
   password: process.env.VPN_HUB_PASS,
   hub: "eternity_hub_02",
 });
@@ -35,7 +35,7 @@ const India__eternity_hub_02 = new VPNCMD({
 const India__eternity_hub_03 = new VPNCMD({
   bin: "vpnclient/vpncmd",
   address: process.env.IP,
-  port: process.env.PORT,
+  port: process.env.VPNPORT,
   password: process.env.VPN_HUB_PASS,
   hub: "eternity_hub_03",
 });
@@ -43,7 +43,7 @@ const India__eternity_hub_03 = new VPNCMD({
 const India__eternity_hub_04 = new VPNCMD({
   bin: "vpnclient/vpncmd",
   address: process.env.IP,
-  port: process.env.PORT,
+  port: process.env.VPNPORT,
   password: process.env.VPN_HUB_PASS,
   hub: "eternity_hub_04",
 });
@@ -51,7 +51,7 @@ const India__eternity_hub_04 = new VPNCMD({
 const India__eternity_hub_05 = new VPNCMD({
   bin: "vpnclient/vpncmd",
   address: process.env.IP,
-  port: process.env.PORT,
+  port: process.env.VPNPORT,
   password: process.env.VPN_HUB_PASS,
   hub: "eternity_hub_05",
 });
@@ -59,7 +59,7 @@ const India__eternity_hub_05 = new VPNCMD({
 const Qatar__eternity_hub = new VPNCMD({
   bin: "vpnclient/vpncmd",
   address: process.env.QATAR_IP,
-  port: process.env.PORT,
+  port: process.env.VPNPORT,
   password: process.env.VPN_HUB_PASS,
   hub: "q_eternity_hub",
 });
@@ -67,7 +67,7 @@ const Qatar__eternity_hub = new VPNCMD({
 const Qatar__eternity_hub_01 = new VPNCMD({
   bin: "vpnclient/vpncmd",
   address: process.env.QATAR_IP,
-  port: process.env.PORT,
+  port: process.env.VPNPORT,
   password: process.env.VPN_HUB_PASS,
   hub: "q_eternity_hub_01",
 });
@@ -75,7 +75,7 @@ const Qatar__eternity_hub_01 = new VPNCMD({
 const Qatar__eternity_hub_02 = new VPNCMD({
   bin: "vpnclient/vpncmd",
   address: process.env.QATAR_IP,
-  port: process.env.PORT,
+  port: process.env.VPNPORT,
   password: process.env.VPN_HUB_PASS,
   hub: "q_eternity_hub_02",
 });
@@ -83,7 +83,7 @@ const Qatar__eternity_hub_02 = new VPNCMD({
 const Qatar__eternity_hub_03 = new VPNCMD({
   bin: "vpnclient/vpncmd",
   address: process.env.QATAR_IP,
-  port: process.env.PORT,
+  port: process.env.VPNPORT,
   password: process.env.VPN_HUB_PASS,
   hub: "q_eternity_hub_03",
 });

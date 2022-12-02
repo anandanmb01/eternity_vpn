@@ -10,11 +10,11 @@ router.get("/google",
 
 router.get("/google/callback",
   passport.authenticate("google", {
-    failureRedirect: global.clienturl+"/login",
+    failureRedirect: process.env.SERVER_CLIENT_URL+"/login",
     failureMessage: true,
   }),
   (req, res) => {
-    res.redirect(global.clienturl);
+    res.redirect(process.env.SERVER_CLIENT_URL);
   }
 );
 
@@ -24,10 +24,10 @@ router.get('/github',
   passport.authenticate('github', { scope: [ 'user:email' ] }));
 
   router.get('/github/callback', 
-  passport.authenticate('github', { failureRedirect: global.clienturl+'/login' ,failureMessage: true,}),
+  passport.authenticate('github', { failureRedirect: process.env.SERVER_CLIENT_URL+'/login' ,failureMessage: true,}),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect(global.clienturl);
+    res.redirect(process.env.SERVER_CLIENT_URL);
   });
 
 //--------------------------------------------------------------
