@@ -14,12 +14,12 @@ import UsrContext from "../context/UsrContext";
 import { useContext } from "react";
 
 //development
-window.serverurl = "http://localhost:5000";
-window.clienturl="";
+// window.serverurl = "http://localhost:5000";
+// window.clienturl="";
 
 //production
-// window.serverurl="";
-// window.clienturl="";
+window.serverurl="";
+window.clienturl="";
 
 // use cookie for all axios query
 axios.defaults.withCredentials = true;

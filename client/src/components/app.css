@@ -19,6 +19,8 @@
     width: 80vw;
     justify-content:center ;
     background-color: whitesmoke;
+    position: absolute;
+    bottom: 0;
 }
 .avatar{
     width: 260px;

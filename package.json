@@ -11,6 +11,7 @@
     "ejs": "^3.1.8",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-github2": "^0.1.12",
     "passport-google-oauth": "^2.0.0",
@@ -19,7 +20,6 @@
   },
   "scripts": {
     "start": "node server.js",
-    "build":"yarn install&&cd client&&npm install&&npm run build"
-}
-  
+    "build": "yarn install&&cd client&&npm install&&npm run build"
+  }
 }

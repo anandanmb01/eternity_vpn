@@ -18,7 +18,7 @@ const navigate =useNavigate();
         <div className="home">
             <div className="row container-fluid">
                 <div className="col-md-6 content-left">
-                    leftbox
+                    {/*  */}
                 </div>
                 <div className="col-md-6 content-right">
                     <div id="content-div">
