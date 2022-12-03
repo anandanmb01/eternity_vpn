@@ -10,14 +10,6 @@ const apiRouter = require("./routes/api");
 const cors = require("cors");
 const path = require('path');
 
-
-// global.clienturl = "http://localhost:3000";
-// global.serverurl = "http://localhost:5000";
-
-// global.clienturl = process.env.SERVER_CLIENT_URL;
-// global.serverurl = process.env.SERVER_SERVER_URL;
-
-
 const port = process.env.PORT || 5000;
 
 const app = express();

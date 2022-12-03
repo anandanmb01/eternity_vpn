@@ -13,10 +13,13 @@ import UserDashboard from "../pages/UserDashboard";
 import UsrContext from "../context/UsrContext";
 import { useContext } from "react";
 
-// window.serverurl = "http://localhost:5000";
-// window.clienturl = "http://localhost:3000";
-window.serverurl="";
+//development
+window.serverurl = "http://localhost:5000";
 window.clienturl="";
+
+//production
+// window.serverurl="";
+// window.clienturl="";
 
 // use cookie for all axios query
 axios.defaults.withCredentials = true;

@@ -2,13 +2,14 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const passport=require("passport");
 
+
 //----------------------------- Social login--------------------------------//
 //-----------------------------google----------------------------
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.SERVER_SERVER_URL.concat("/auth/google/callback")
+    callbackURL: `${process.env.SERVER_SERVER_URL}/auth/google/callback`
   },
   function(accessToken, refreshToken, profile, done) {
 
@@ -29,7 +30,7 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: process.env.SERVER_SERVER_URL.concat("/auth/github/callback")
+  callbackURL: `${process.env.SERVER_SERVER_URL}/auth/github/callback`
 },
 function(accessToken, refreshToken, profile, done) {
   const usr={
