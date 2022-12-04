@@ -27,7 +27,7 @@ const httpsServer = https.createServer(httpsOptions, app);
 
 app.use((req,res,next)=>{
   if(req.protocol==="http"){
-    res.redirect("https://eternityvpn.ddns.net/")
+    res.redirect(301,`https://eternityvpn.ddns.net${req.url}`);
   }next();
 });
 
