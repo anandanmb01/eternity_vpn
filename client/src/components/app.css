@@ -51,7 +51,16 @@
 }
 #content-div{
     margin: auto;
+    text-align: justify;
+    line-height: 25px;
 }
+#content-div h1{
+    font-family: 'Zen Dots', cursive;
+    font-size: 45px;
+    
+
+}    
+
 
 .home-btn{
     margin: 10px;
@@ -263,10 +272,17 @@ align-items: center;
 .vpn-usr-disp{
     background-color: rgba(0,0,0,0);
 }
-
-
-
-
+.content-left{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-image: url("/public/images/infinity.gif");
+    background-repeat: no-repeat;
+    background-size: 50%; */
+}
+.content-left img{
+    width: 350px;
+}
 
 
 /*  */
@@ -286,10 +302,26 @@ align-items: center;
         display: flex;
         height: 80vh;
         flex-direction: column;
+        align-items: center ;
 
     }
     #content-div{
         margin: 20px 0 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 20%;
+        line-height: 32px;
+        font-size: 23px;
+        text-align: justify;
+        padding: 0 10px 0 10px;
+    }
+    #content-div h1{
+        font-size: 80px;
+        font-family: 'Zen Dots', cursive;
+        margin-bottom: 30px;
     }
 
 

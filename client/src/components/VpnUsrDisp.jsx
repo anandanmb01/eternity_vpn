@@ -6,12 +6,14 @@ import {useState} from "react";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import {Windows,Android,Mac,Linux,Ios} from "../pages/instructions";
+import HubContext from "../context/HubContext";
 
 function VpnUsrDisp(){
 
     const {vpnUsr} = useContext(VpnUsrContext);
     const {user} = useContext(UsrContext);
     const [vpnUsrGuide,setVpnUsrGuide] =useState(false);
+    const {hubSelect} = useContext(HubContext);
 
 
     function VpnUsrGuidei(){
@@ -78,15 +80,19 @@ function VpnUsrDisp(){
                 </tr>
                 <tr>
                     <td className="td">host address</td>
-                    <td>{`43.205.75.80`}</td>
+                    <td>{`eternityvpn.ddns.net`}</td>
                 </tr>
                 <tr>
                     <td className="td">port</td>
-                    <td>{`8443`}</td>
+                    <td>{`992 | 1194 | 5555 | 8443`}</td>
                 </tr>
                 <tr>
                     <td className="td">preshared key</td>
-                    <td>{`eternity_hub`}</td>
+                    <td>{`eternitykey`}</td>
+                </tr>
+                <tr>
+                    <td className="td">L2TP hub</td>
+                    <td>{`${hubSelect}`}</td>
                 </tr>
                 <tr>
                     <td className="td">auth type</td>
