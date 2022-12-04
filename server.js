@@ -1,18 +1,40 @@
 const env = require("dotenv").config();
+const fs = require("fs");
+const http = require("http");
+const https = require("https");
+const hostname = "eternityvpn.ddns.net";
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const session = require("express-session");
 const passport = require("passport");
 const passportConfig = require("./passport-config");
-const authRouter = require("./routes/auth");
-const apiRouter = require("./routes/api");
 const cors = require("cors");
 const path = require('path');
 
-const port = process.env.PORT || 80;
+const httpPort = 80;
+const httpsPort=443;
+
+const httpsOptions={
+  cert:fs.readFileSync("./ssl/certificate.crt"),
+  ca:fs.readFileSync("./ssl/ca_bundle.crt"),
+  key:fs.readFileSync("./ssl/private.key")
+}
 
 const app = express();
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(httpsOptions, app);
+
+app.use((req,res,next)=>{
+  if(req.protocol==="http"){
+    res.redirect("https://eternityvpn.ddns.net/")
+  }next();
+});
+
+const authRouter = require("./routes/auth");
+const apiRouter = require("./routes/api");
+const port = process.env.PORT || 80;
+
 
 //--------------------------Middleware initilization---------------------------------//
 
@@ -73,6 +95,13 @@ app.route("*").get((req, res) => {
 
 //---------------------------Server initilization--------------------------//
 
-app.listen(port, () => {
-  console.log(`server started on port ${port}`);
+// app.listen(port, () => {
+//   console.log(`server started on port ${port}`);
+// });
+
+httpServer.listen(port,()=>{
+  console.log("http server started on port 80");
+});
+httpsServer.listen(httpsPort,()=>{
+  console.log(`http server started on port ${httpsPort}`);
 });

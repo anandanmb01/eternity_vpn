@@ -81,6 +81,10 @@ function VpnUsrDisp(){
                     <td>{`43.205.75.80`}</td>
                 </tr>
                 <tr>
+                    <td className="td">port</td>
+                    <td>{`8443`}</td>
+                </tr>
+                <tr>
                     <td className="td">preshared key</td>
                     <td>{`eternity_hub`}</td>
                 </tr>

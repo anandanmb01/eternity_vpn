@@ -80,14 +80,7 @@ function Dashboard(props) {
       </div>
       <div>
         <p className="card dashboard-note">
-          Excepteur voluptate dolor ad proident aute exercitation. Occaecat
-          dolor nostrud eu qui adipisicing magna voluptate est eiusmod ea mollit
-          amet. Voluptate dolor in nulla dolor laborum ea pariatur ea et
-          voluptate Lorem. Deserunt tempor elit eiusmod mollit et ad commodo
-          dolor veniam nostrud sit laboris. Commodo id laborum sunt in excepteur
-          esse ullamco Lorem culpa mollit sint sunt. Velit Lorem qui Lorem
-          incididunt. Ut in tempor irure amet in voluptate exercitation duis
-          nisi do consectetur incididunt.
+            Hubs in eternity vpn are virtualized network switches ,which allows friends on the same client to be feel like global local network ,serving as the function on local file transfer multiplayer gaming etc as we were in a local network
         </p>
       </div>
     </div>
