@@ -1,3 +1,5 @@
+ssl/
+start.sh
 # Logs
 logs
 *.log
