@@ -2,18 +2,20 @@ const env = require("dotenv").config();
 const fs = require("fs");
 const http = require("http");
 const https = require("https");
-const hostname = "eternityvpn.ddns.net";
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const session = require("express-session");
 const passport = require("passport");
-const passportConfig = require("./passport-config");
 const cors = require("cors");
 const path = require('path');
 
 const httpPort = 80;
 const httpsPort=443;
+const clientPort=3000;
+global.serverUrl="" ;
+global.clientUrl="";
+
 
 const httpsOptions={
   cert:fs.readFileSync("./ssl/certificate.crt"),
@@ -21,19 +23,44 @@ const httpsOptions={
   key:fs.readFileSync("./ssl/private.key")
 }
 
+const port = process.env.PORT || httpPort;
+
 const app = express();
+
+if ((process.env.NODE_ENV || "development")=="production"){
+  
+  global.serverUrl = process.env.SERVER_URL; 
+  global.clientUrl = global.serverUrl;
+  
+  app.use((req,res,next)=>{
+    if(req.protocol==="http"){
+      res.redirect(301,`${process.env.SERVER_URL}${req.url}`);
+    }next();
+  });
+
+}else{
+
+  global.serverUrl = `http://localhost:${port}`;
+  global.clientUrl = `http://localhost:${clientPort}`;
+  
+  app.use(
+    cors({
+      origin: global.clientUrl,
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      credentials: true,
+    })
+  );
+
+}
+
+const passportConfig = require("./passport-config");
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(httpsOptions, app);
 
-app.use((req,res,next)=>{
-  if(req.protocol==="http"){
-    res.redirect(301,`https://eternityvpn.ddns.net${req.url}`);
-  }next();
-});
+
 
 const authRouter = require("./routes/auth");
 const apiRouter = require("./routes/api");
-const port = process.env.PORT || 80;
 
 
 //--------------------------Middleware initilization---------------------------------//
@@ -61,13 +88,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(
-  cors({
-    origin: process.env.SERVER_CLIENT_URL,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
+
 
 //-------------------Safety middleware----------------------------------//
 
@@ -95,13 +116,16 @@ app.route("*").get((req, res) => {
 
 //---------------------------Server initilization--------------------------//
 
-// app.listen(port, () => {
-//   console.log(`server started on port ${port}`);
-// });
+if(process.env.NODE_ENV==="production"){
+  httpServer.listen(port,()=>{
+    console.log("http server started on port 80");
+  });
+  httpsServer.listen(httpsPort,()=>{
+    console.log(`https server started on port ${httpsPort}`);
+  });
+}else{
+  app.listen(port, () => {
+    console.log(`server started on port ${port}`);
+  });
+}
 
-httpServer.listen(port,()=>{
-  console.log("http server started on port 80");
-});
-httpsServer.listen(httpsPort,()=>{
-  console.log(`http server started on port ${httpsPort}`);
-});

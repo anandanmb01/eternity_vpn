@@ -53,7 +53,7 @@ function Login(){
                 </div>
                 <div className="local-login">
                     <form className="local-login-form">
-                        <h5><img src="/images/infinity.png" height="35px"></img>Local login</h5>
+                        <h5><img src="/images/infinity.png" alt="" height="35px"></img>Local login</h5>
                         <Inp/>              
                     </form>
                 </div>

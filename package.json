@@ -19,7 +19,8 @@
     "vpncmd": "^0.0.2"
   },
   "scripts": {
-    "start": "node server.js",
-    "build": "yarn install&&cd client&&npm install&&npm run build"
+    "start": "NODE_ENV=production node server.js",
+    "build": "NODE_ENV=production yarn install&&cd client&&npm install&&npm run build",
+    "debug": "nodemon server.js"
   }
 }

@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 import React from "react";
 import "../components/app.css";
 import axios from "axios";
@@ -15,15 +15,9 @@ import { useEffect } from "react";
 
 function UserDashboard() {
 
-  const { user ,setUser} = useContext(UsrContext);
-  // console.log(user);
+  const { user } = useContext(UsrContext);
   const {
-    hubSelection,
-    setHubSelection,
-    locSelection,
-    setLocSelection,
     hubSelect,
-    setHubSelect,
   } = useContext(HubContext);
 
   const navigate = useNavigate();
@@ -42,17 +36,16 @@ function UserDashboard() {
         hub_id: hubSelect,
       })
       .then((res) => {
-        // console.log(res.data);
         if (res.data.redirect) {
           navigate("/");
         } else {
           if (res.data.error) {
+            // eslint-disable-next-line
             message = "user not available";
             setVpnUsr({});
           } else {
             message = null;
             setVpnUsr(res.data);
-            // console.log(vpnUsr);
           }
         }
       });
@@ -190,7 +183,6 @@ function UserDashboard() {
       <div>
         <p>{`You are now connected to ${hubSelect}`}</p>
       </div>
-      {/* {console.log(vpnUsr)} */}
       {Object.keys(vpnUsr).length === 0?<UsrCreateForm/>:<><VpnUsrDisp/><UserMod/></>}
       {changePsk&&<ChangeUsrPsk/>}
     </div>

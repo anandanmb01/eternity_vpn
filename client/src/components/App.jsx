@@ -1,8 +1,6 @@
-/* eslint-disable */
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
-import { useState } from "react";
 import Header from "./Header";
 import Home from "../pages/Home";
 import Footer from "./Footer";
@@ -13,13 +11,8 @@ import UserDashboard from "../pages/UserDashboard";
 import UsrContext from "../context/UsrContext";
 import { useContext } from "react";
 
-//development
-// window.serverurl = "http://localhost:5000";
-// window.clienturl="";
 
-//production
-window.serverurl="";
-window.clienturl="";
+window.serverurl=process.env.REACT_APP_SERVER_URL;
 
 // use cookie for all axios query
 axios.defaults.withCredentials = true;
@@ -39,6 +32,7 @@ function App() {
         console.log(err);
       })
       .finally(() => {});
+      // eslint-disable-next-line
   }, []);
 
   // ---------------------------App return-------------------------------------------//

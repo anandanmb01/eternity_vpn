@@ -14,7 +14,7 @@ function Card(props){
             setCardStyle({borderColor:null})
         }
 
-    },[props.check])
+    },[props.check,props.name])
     
     function handleClick(){
         props.focous(props.name);

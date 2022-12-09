@@ -21,7 +21,6 @@ function Dashboard(props) {
     setHubSelect,
   } = useContext(HubContext);
 
-  // console.log(user);  
   function connect_to_hub() {
     navigate(`/dashboard/${user.id}`);
   }

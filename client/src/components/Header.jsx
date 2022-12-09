@@ -17,7 +17,6 @@ function Header(props) {
       axios.post(window.serverurl+"/auth/logout", { withCredentials: true })
       .then((res) => {
         if(res.data.status){
-          // console.log("yes");
           setUser(null);
         }
       })
