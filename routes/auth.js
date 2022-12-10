@@ -30,9 +30,18 @@ router.get('/github',
     res.redirect(global.clientUrl);
   });
 
+//----------------------Facebook----------------------------------------
+app.get('/facebook',
+  passport.authenticate('facebook'));
+
+  app.get('/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: global.clientUrl+'login' ,failureMessage: true,}),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect(global.clientUrl);
+  });
+
 //--------------------------------------------------------------
-
-
 
 router.post("/logout", function (req, res, next) {
     req.logout(function (err) {

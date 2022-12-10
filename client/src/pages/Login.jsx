@@ -13,6 +13,9 @@ function handleGoogle(){
 function handleGitHub(){
     window.open(window.serverurl+"/auth/github","_self");
 }
+function handleFacebook(){
+    window.open(window.serverurl+"/auth/facebook","_self");
+}
 
 function Inp() {
 
@@ -41,7 +44,7 @@ function Login(){
             <div className=" login-content shadow">
                 <div className="social-login">
                     <GoogleLoginButton onClick={handleGoogle}><span>Google</span></GoogleLoginButton>
-                    <FacebookLoginButton onClick={()=>{alert("Feature under development ,please signin using Google or Github")}}><span>Facebook</span></FacebookLoginButton>
+                    <FacebookLoginButton onClick={handleFacebook}><span>Facebook</span></FacebookLoginButton>
                     <GithubLoginButton onClick={handleGitHub}><span>GitHub</span></GithubLoginButton>
                     
                 </div>
