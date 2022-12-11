@@ -31,10 +31,10 @@ router.get('/github',
   });
 
 //----------------------Facebook----------------------------------------
-app.get('/facebook',
-  passport.authenticate('facebook'));
+router.get('/facebook',
+  passport.authenticate('facebook', { scope: ["email"] }));
 
-  app.get('/facebook/callback',
+  router.get('/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: global.clientUrl+'login' ,failureMessage: true,}),
   function(req, res) {
     // Successful authentication, redirect home.

@@ -21,7 +21,6 @@ const navigate =useNavigate();
                     {/*  */}
                     <img src="/images/infinity.png" alt="" />
                     
-
                 </div>
                 <div className="col-lg-6 content-right">
                     <div id="content-div">

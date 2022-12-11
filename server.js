@@ -118,7 +118,7 @@ app.route("*").get((req, res) => {
 
 if(process.env.NODE_ENV==="production"){
   httpServer.listen(port,()=>{
-    console.log("http server started on port 80");
+    console.log(`http server started on ${port}`);
   });
   httpsServer.listen(httpsPort,()=>{
     console.log(`https server started on port ${httpsPort}`);

@@ -1,6 +1,8 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 const passport=require("passport");
+
 
 
 //----------------------------- Social login--------------------------------//
@@ -48,11 +50,19 @@ function(accessToken, refreshToken, profile, done) {
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: `${global.serverUrl}/auth/facebook/callback`
+  callbackURL: `${global.serverUrl}/auth/facebook/callback`,
+  profileFields: ['id', 'emails', 'name', 'displayName', 'picture.type(large)',]
 },
 function(accessToken, refreshToken, profile, cb) {
-  console.log(profile);
-  return cb(null,profile);
+  const usr={
+    username:`${profile.emails[0].value.split("@")[0]}_github`,
+    email:profile.emails[0].value,
+    id:profile.id,
+    photo:profile.photos[0].value,
+    name:profile.displayName.split(" ").join("_"),
+  }
+    console.log(usr);
+    return cb(null, usr);
 }
 ));
 //-----------------------------------------------------------------
