@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
-
+const {User:mongooseUser} = require("../mongoose-config");
+const bcrypt = require('bcrypt');
 
 //-----------------------------Google--------------------------------//
 
@@ -40,6 +41,47 @@ router.get('/facebook',
     // Successful authentication, redirect home.
     res.redirect(global.clientUrl);
   });
+
+//--------------------------Local login------------------------------------
+router.post('/login', 
+  passport.authenticate('local', { failureRedirect: global.clientUrl+'login' ,failureMessage: true, }),
+  function(req, res) {
+    res.redirect(global.clientUrl);
+  });
+
+router.post("/register",(req,res)=>{
+  // console.log(req.body);
+  const uname=req.body.email.split("@")[0]+"_eternity";
+  mongooseUser.findOne({username:uname})
+    .then((d)=>{
+      console.log(d);
+
+      if (d===null){
+        bcrypt.hash(req.body.password,5).then(function(hash) {
+          // Store hash in your password DB.
+          const usr = new mongooseUser({
+            name:req.body.name,
+            username:uname,
+            email:req.body.email,
+            photo:req.body.photo,
+            id:"",
+            authType:"local",
+            password:hash,
+          })
+          
+          usr.save()
+          res.json({
+            result:"user created",
+            redirect:"/",
+          })
+      });
+      }else{
+        res.json({
+          result:"user already exist",
+          redirect:"/login"
+        })}})
+        .catch(error => console.log(error));
+});
 
 //--------------------------------------------------------------
 

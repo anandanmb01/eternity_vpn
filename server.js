@@ -9,6 +9,12 @@ const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
 const path = require('path');
+const mongoose = require('mongoose');
+mongoose.set('strictQuery', false);
+mongoose.connect(process.env.MONGODB_URL);
+
+const {User:mongooseUser} = require("./mongoose-config");
+
 
 const httpPort = 80;
 const httpsPort=443;

@@ -1,8 +1,10 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
+const LocalStrategy = require("passport-local").Strategy;
 const passport=require("passport");
-
+const {User:mongooseUser} = require("./mongoose-config");
+const bcrypt = require('bcrypt');
 
 
 //----------------------------- Social login--------------------------------//
@@ -55,7 +57,7 @@ passport.use(new FacebookStrategy({
 },
 function(accessToken, refreshToken, profile, cb) {
   const usr={
-    username:`${profile.emails[0].value.split("@")[0]}_github`,
+    username:`${profile.emails[0].value.split("@")[0]}_facebook`,
     email:profile.emails[0].value,
     id:profile.id,
     photo:profile.photos[0].value,
@@ -65,7 +67,37 @@ function(accessToken, refreshToken, profile, cb) {
     return cb(null, usr);
 }
 ));
-//-----------------------------------------------------------------
+//------------------------------Local-----------------------------------
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+      mongooseUser.findOne({username:username})
+      .then(res =>{
+        // console.log(res);
+        if (res===null){
+          console.log("user not found");
+          return done(null, false);
+          
+        }else{
+          bcrypt.compare(password, res.password).then(function(result) {
+          if (result){
+            console.log("user found passward match");
+            return done(null, {username:res.username,email:res.email,id:res.id,photo:res.photo,name:res.name})
+          }
+          else{
+            console.log("user found password mismatch");
+            return done(null, false);
+          }
+        });
+        }
+      })
+      .catch(error => {
+        console.log("user auth error");
+        return done(error);});
+  }
+));
+
+//---------------------------------------------------------------
 
 
 passport.serializeUser((user,done)=>{
@@ -76,4 +108,3 @@ passport.deserializeUser((user,done)=>{
   done(null,user);
 });
 
-//-------------------------- Google over-------------------------------------// 
