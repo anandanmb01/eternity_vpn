@@ -46,7 +46,7 @@ function App() {
         <Route path="/dashboard/:id" element={user?<UserDashboard/>:<Login />} />
         <Route path="/*" element={<h1>PAGE NOT FOUND</h1>} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
