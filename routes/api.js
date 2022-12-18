@@ -49,7 +49,7 @@ router_api.post("/vpn/createuser",(req,res)=>{
           error:true
       })
   })
-})
+});
 
 router_api.post("/vpn/deleteuser",(req,res)=>{
   eval(req.body.hub_id)
@@ -79,10 +79,6 @@ router_api.post("/vpn/changeusrpsk",(req,res)=>{
       })
   })
 });
-
-
-
-
 
 //------------------------------export---------------//
 module.exports = router_api;

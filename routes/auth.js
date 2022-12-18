@@ -15,7 +15,7 @@ router.get("/google/callback",
     failureMessage: true,
   }),
   (req, res) => {
-    res.redirect(global.clientUrl);
+    res.redirect(global.clientUrl)+"/";
   }
 );
 
@@ -25,10 +25,10 @@ router.get('/github',
   passport.authenticate('github', { scope: [ 'user:email' ] }));
 
   router.get('/github/callback', 
-  passport.authenticate('github', { failureRedirect: global.clientUrl+'login' ,failureMessage: true,}),
+  passport.authenticate('github', { failureRedirect: global.clientUrl+'/login' ,failureMessage: true,}),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect(global.clientUrl);
+    res.redirect(global.clientUrl+"/");
   });
 
 //----------------------Facebook----------------------------------------
@@ -36,18 +36,39 @@ router.get('/facebook',
   passport.authenticate('facebook', { scope: ["email"] }));
 
   router.get('/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: global.clientUrl+'login' ,failureMessage: true,}),
+  passport.authenticate('facebook', { failureRedirect: global.clientUrl+'/login' ,failureMessage: true,}),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect(global.clientUrl);
+    res.redirect(global.clientUrl+"/");
   });
 
 //--------------------------Local login------------------------------------
 router.post('/login', 
-  passport.authenticate('local', { failureRedirect: global.clientUrl+'login' ,failureMessage: true, }),
+  passport.authenticate('local', { failureRedirect: global.clientUrl+'/login' ,failureMessage: true, }),
   function(req, res) {
-    res.redirect(global.clientUrl);
+    res.redirect(global.clientUrl+"/");
   });
+
+
+//   router.post('/login', (req, res, next) => {
+//     passport.authenticate('local', {}, (err, user, info) => {
+//       if(err){
+//         res.json({
+//           result:"error occured"
+//         });
+//       }
+//       if(user){
+//         // res.send(user);
+//         res.redirect(global.clientUrl+"/");
+//       }else{
+//         res.json({
+//           result:"Incorrect password"
+//         });
+//       }
+//     })(req, res, next);
+//  });
+
+//-------------
 
 router.post("/register",(req,res)=>{
   // console.log(req.body);

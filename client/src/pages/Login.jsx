@@ -136,9 +136,11 @@ const [login,setLogin] = React.useState({
       </div>
       <div className="local-dignup-btn-gp">
         <button
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             axios
-              .post(window.serverurl + "/auth/login",{...login,["username"]:(login.username.split("@")[0]+"_eternity")});
+              .post(window.serverurl + "/auth/login",{...login,["username"]:(login.username.split("@")[0]+"_eternity")})
+              .then((r)=>{console.log(r)});
           }}
           className="btn btn-outline-primary"
         >

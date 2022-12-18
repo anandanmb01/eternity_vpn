@@ -289,7 +289,6 @@ align-items: center;
     justify-content: space-around;
     flex-direction: column;
 }
-
 /*  */
 
 @media (max-width: 1200px) {
