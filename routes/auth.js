@@ -43,30 +43,32 @@ router.get('/facebook',
   });
 
 //--------------------------Local login------------------------------------
-router.post('/login', 
-  passport.authenticate('local', { failureRedirect: global.clientUrl+'/login' ,failureMessage: true, }),
-  function(req, res) {
-    res.redirect(global.clientUrl+"/");
+// router.post('/login',(req,res,next)=>{
+//   passport.authenticate('local',(err, user, info)=>{
+//     console.log("iam here");
+//   })
+// });
+
+router.post("/login", (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) throw err;
+      if (!user) {
+        res.json({
+          result:"Incorrect credentials",
+          redirect:false,
+        })}
+      else {
+        req.logIn(user, (err) => {
+          if (err) throw err;
+          res.json({
+            result:req.user,
+            redirect:"/",
+          })
+          // console.log(req.user);
+        });
+      }
+    })(req, res, next);
   });
-
-
-//   router.post('/login', (req, res, next) => {
-//     passport.authenticate('local', {}, (err, user, info) => {
-//       if(err){
-//         res.json({
-//           result:"error occured"
-//         });
-//       }
-//       if(user){
-//         // res.send(user);
-//         res.redirect(global.clientUrl+"/");
-//       }else{
-//         res.json({
-//           result:"Incorrect password"
-//         });
-//       }
-//     })(req, res, next);
-//  });
 
 //-------------
 
@@ -75,7 +77,7 @@ router.post("/register",(req,res)=>{
   const uname=req.body.email.split("@")[0]+"_eternity";
   mongooseUser.findOne({username:uname})
     .then((d)=>{
-      console.log(d);
+      // console.log(d);
 
       if (d===null){
         bcrypt.hash(req.body.password,5).then(function(hash) {

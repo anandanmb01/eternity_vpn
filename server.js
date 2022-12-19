@@ -48,8 +48,15 @@ if ((process.env.NODE_ENV || "development")=="production"){
 
   global.serverUrl = `http://localhost:${port}`;
   global.clientUrl = `http://localhost:${clientPort}`;
-  app.options('*', cors());
-  app.use(cors());
+  app.use(
+        cors({
+          origin: [global.clientUrl,global.serverUrl],
+          methods: ["GET", "POST", "PUT", "DELETE"],
+          credentials: true,
+          preflightContinue: true,
+        })
+      );
+    
 }
 
 const passportConfig = require("./passport-config");

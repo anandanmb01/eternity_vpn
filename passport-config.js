@@ -63,7 +63,7 @@ function(accessToken, refreshToken, profile, cb) {
     photo:profile.photos[0].value,
     name:profile.displayName.split(" ").join("_"),
   }
-    console.log(usr);
+    // console.log(usr);
     return cb(null, usr);
 }
 ));
@@ -81,18 +81,18 @@ passport.use(new LocalStrategy(
         }else{
           bcrypt.compare(password, res.password).then(function(result) {
           if (result){
-            console.log("user found passward match");
-            return done(null, {username:res.username,email:res.email,id:res.id,photo:res.photo,name:res.name})
+            // console.log("user found passward match");
+            return done(null, {username:res.username,email:res.email,id:res._id,photo:res.photo,name:res.name})
           }
           else{
-            console.log("user found password mismatch");
+            // console.log("user found password mismatch");
             return done(null, false);
           }
         });
         }
       })
       .catch(error => {
-        console.log("user auth error");
+        // console.log("user auth error");
         return done(error);});
   }
 ));
