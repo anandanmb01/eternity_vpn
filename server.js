@@ -9,6 +9,12 @@ const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
 const path = require('path');
+const mongoose = require('mongoose');
+mongoose.set('strictQuery', false);
+mongoose.connect(process.env.MONGODB_URL);
+
+const {User:mongooseUser} = require("./mongoose-config");
+
 
 const httpPort = 80;
 const httpsPort=443;
@@ -42,15 +48,15 @@ if ((process.env.NODE_ENV || "development")=="production"){
 
   global.serverUrl = `http://localhost:${port}`;
   global.clientUrl = `http://localhost:${clientPort}`;
-  
   app.use(
-    cors({
-      origin: global.clientUrl,
-      methods: ["GET", "POST", "PUT", "DELETE"],
-      credentials: true,
-    })
-  );
-
+        cors({
+          origin: [global.clientUrl,global.serverUrl],
+          methods: ["GET", "POST", "PUT", "DELETE"],
+          credentials: true,
+          preflightContinue: true,
+        })
+      );
+    
 }
 
 const passportConfig = require("./passport-config");

@@ -47,7 +47,7 @@ function Header(props) {
     return (
       <div className="avatar">
         <span>{user.name}</span>
-        <img src={user.photo?user.photo:'/images/login.png'} alt="" width="35px" height="35px" />
+        <img src={user.photo?user.photo:'images/login.png'} alt="" width="35px" height="35px" />
         <span id="logout" onClick={handleLogout}>Logout</span>
       </div>
     );

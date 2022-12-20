@@ -1,5 +1,3 @@
-ssl/
-start.sh
 # Logs
 logs
 *.log
@@ -130,3 +128,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+.vscode
+ssl/
+start.sh
+.vscode/
