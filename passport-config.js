@@ -75,7 +75,7 @@ passport.use(new LocalStrategy(
       .then(res =>{
         // console.log(res);
         if (res===null){
-          console.log("user not found");
+          // console.log("user not found");
           return done(null, false);
           
         }else{
