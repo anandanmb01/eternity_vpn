@@ -36,22 +36,26 @@ router_api.post("/vpn/connect", (req, res) => {
 });
 
 router_api.post("/vpn/createuser",(req,res)=>{
+  (async ()=>{
 
-  const today = new Date()
-  let date_ob =  new Date()
-  date_ob.setDate(today.getDate() + freeTireDays);
-
-  eval(req.body.hub_id)
-  .executeCommand(`UserCreate ${req.user.username} /GROUP:none /REALNAME:${req.user.name} /NOTE:${req.user.id}`)
-  .then((x)=>{eval(req.body.hub_id).executeCommand(`UserPasswordSet ${req.user.username} /PASSWORD:${req.body.password}`)})
-  .then((y)=>{eval(req.body.hub_id).executeCommand(`UserExpiresSet ${req.user.username} /EXPIRES:"${String(date_ob.getFullYear()).padStart(4, '0')}/${String(date_ob.getMonth()).padStart(2, '0')}/${String(date_ob.getDate()).padStart(2, '0')} ${String(date_ob.getHours()).padStart(2, '0')}:${String(date_ob.getMinutes()).padStart(2, '0')}:${String(date_ob.getSeconds()).padStart(2, '0')}"`)})
-  .then((z)=>{res.json({error:null});})
-  .catch((e)=>{
-    console.log(e);
-      res.json({
-          error:true
-      })
-  })
+    const today = new Date()
+    let date_ob =  new Date()
+    date_ob.setDate(today.getDate() + freeTireDays);
+    try{
+    await eval(req.body.hub_id).executeCommand(`UserCreate ${req.user.username} /GROUP:none /REALNAME:${req.user.name} /NOTE:${req.user.id}`)
+    await eval(req.body.hub_id).executeCommand(`UserPasswordSet ${req.user.username} /PASSWORD:${req.body.password}`)
+    await eval(req.body.hub_id).executeCommand(`UserExpiresSet ${req.user.username} /EXPIRES:"${String(date_ob.getFullYear()).padStart(4, '0')}/${String(date_ob.getMonth()).padStart(2, '0')}/${String(date_ob.getDate()).padStart(2, '0')} ${String(date_ob.getHours()).padStart(2, '0')}:${String(date_ob.getMinutes()).padStart(2, '0')}:${String(date_ob.getSeconds()).padStart(2, '0')}"`)
+    res.json({
+      error:false
+  });
+  }catch{
+      (e)=>{
+        console.log(e);
+          res.json({
+              error:true
+          })
+      }}
+})();
 });
 
 router_api.post("/vpn/deleteuser",(req,res)=>{
