@@ -21,14 +21,14 @@ passport.use(new GoogleStrategy({
     const hash_ = md5(profile.id+"_google");
 
     mongooseUser.findOne({id:hash_},(e,d)=>{
-      console.log(d);
+      // console.log(d);
       if(e){
-        done(e);
+        return done(e);
       }else{
 
         if(d==null){
           const usr={
-            username:profile.emails[0].value.split("@").join("_").split(".")[0],
+            username:profile.emails[0].value.split("@")[0]+`_google`,
             name:profile.displayName.split(" ").join("_"),
             id:hash_,
             email:profile.emails[0].value,
@@ -37,26 +37,17 @@ passport.use(new GoogleStrategy({
           }
           mongooseUser.insertMany([usr],(e,data)=>{
             if(e){
-              done(e);
-            }else{
-              done(null,{username:data.username,name:data.name,id:data.id,email:data.email,photo:data.photo,});
+              return done(e);
+            }
+            if(data){
+              return done(null,{username:usr.username,name:usr.name,id:usr.id,email:usr.email,photo:usr.photo,});
             }
           });
         }else{
-          done(null,{username:d.username,name:d.name,id:d.id,email:d.email,photo:d.photo,});
+          return done(null,{username:d.username,name:d.name,id:d.id,email:d.email,photo:d.photo,});
         }
       }
-      
-    })
-
-    const usr={
-      username:profile.emails[0].value.split("@").join("_").split(".")[0],
-      name:profile.displayName.split(" ").join("_"),
-      id:profile.id,
-      email:profile.emails[0].value,
-      photo:profile.photos[0].value
-    }
-    done(null,usr)
+    });
   }
 ));
 
@@ -68,14 +59,37 @@ passport.use(new GitHubStrategy({
   callbackURL: `${global.serverUrl}/auth/github/callback`
 },
 function(accessToken, refreshToken, profile, done) {
-  const usr={
-    username:`${profile.username}_github`,
-    email:profile._json.email,
-    id:profile.id,
-    photo:profile.photos[0].value,
-    name:profile.displayName.split(" ").join("_")
-  }
-    return done(null, usr);
+
+  const hash_ = md5(profile.id+"_github");
+
+  mongooseUser.findOne({id:hash_},(e,d)=>{
+    // console.log(d);
+    if(e){
+      return done(e);
+    }else{
+
+      if(d==null){
+        const usr={
+          username:`${profile.username}_github`,
+          email:profile._json.email,
+          id:profile.id,
+          photo:profile.photos[0].value,
+          name:profile.displayName.split(" ").join("_"),
+          authType:"github",
+        }
+        mongooseUser.insertMany([usr],(e,data)=>{
+          if(e){
+            return done(e);
+          }
+          if(data){
+            return done(null,{username:usr.username,name:usr.name,id:usr.id,email:usr.email,photo:usr.photo,});
+          }
+        });
+      }else{
+        return done(null,{username:d.username,name:d.name,id:d.id,email:d.email,photo:d.photo,});
+      }
+    }
+  });
 }
 ));
 
@@ -89,15 +103,38 @@ passport.use(new FacebookStrategy({
   profileFields: ['id', 'emails', 'name', 'displayName', 'picture.type(large)',]
 },
 function(accessToken, refreshToken, profile, cb) {
-  const usr={
-    username:`${profile.emails[0].value.split("@")[0]}_facebook`,
-    email:profile.emails[0].value,
-    id:profile.id,
-    photo:profile.photos[0].value,
-    name:profile.displayName.split(" ").join("_"),
-  }
-    // console.log(usr);
-    return cb(null, usr);
+
+  const hash_ = md5(profile.id+"_facebook");
+
+  mongooseUser.findOne({id:hash_},(e,d)=>{
+    // console.log(d);
+    if(e){
+      return done(e);
+    }else{
+
+      if(d==null){
+        const usr={
+          username:`${profile.emails[0].value.split("@")[0]}_facebook`,
+          email:profile.emails[0].value,
+          id:profile.id,
+          photo:profile.photos[0].value,
+          name:profile.displayName.split(" ").join("_"),
+          authType:"facebook"
+        }
+        mongooseUser.insertMany([usr],(e,data)=>{
+          if(e){
+            return done(e);
+          }
+          if(data){
+            return done(null,{username:usr.username,name:usr.name,id:usr.id,email:usr.email,photo:usr.photo,});
+          }
+        });
+      }else{
+        return done(null,{username:d.username,name:d.name,id:d.id,email:d.email,photo:d.photo,});
+      }
+    }
+  });
+
 }
 ));
 //------------------------------Local-----------------------------------
