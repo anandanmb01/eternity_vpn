@@ -1,5 +1,7 @@
 const router_api = require("express").Router();
 const passport = require("passport");
+const freeTireDays=3;
+
 const {
   vpncmd,
   India__eternity_hub,
@@ -34,16 +36,17 @@ router_api.post("/vpn/connect", (req, res) => {
 });
 
 router_api.post("/vpn/createuser",(req,res)=>{
+
+  const today = new Date()
+  let date_ob =  new Date()
+  date_ob.setDate(today.getDate() + freeTireDays);
+
   eval(req.body.hub_id)
   .executeCommand(`UserCreate ${req.user.username} /GROUP:none /REALNAME:${req.user.name} /NOTE:${req.user.id}`)
-  .then((resp) => {
-    ////////////
-    eval(req.body.hub_id).executeCommand(`UserPasswordSet ${req.user.username} /PASSWORD:${req.body.password}`)
-    ////////////
-    res.json({
-      error:null
-    });
-  }).catch((e)=>{
+  .then((x)=>{eval(req.body.hub_id).executeCommand(`UserPasswordSet ${req.user.username} /PASSWORD:${req.body.password}`)})
+  .then((y)=>{eval(req.body.hub_id).executeCommand(`UserExpiresSet ${req.user.username} /EXPIRES:"${String(date_ob.getFullYear()).padStart(4, '0')}/${String(date_ob.getMonth()).padStart(2, '0')}/${String(date_ob.getDate()).padStart(2, '0')} ${String(date_ob.getHours()).padStart(2, '0')}:${String(date_ob.getMinutes()).padStart(2, '0')}:${String(date_ob.getSeconds()).padStart(2, '0')}"`)})
+  .then((z)=>{res.json({error:null});})
+  .catch((e)=>{
     console.log(e);
       res.json({
           error:true
