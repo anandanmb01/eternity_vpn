@@ -13,11 +13,11 @@ router.get("/google",
 
 router.get("/google/callback",
   passport.authenticate("google", {
-    failureRedirect: global.clientUrl+"login",
+    failureRedirect: global.clientUrl+"/login",
     failureMessage: true,
   }),
   (req, res) => {
-    res.redirect(global.clientUrl)+"/";
+    res.redirect(global.clientUrl+"/");
   }
 );
 

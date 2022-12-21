@@ -12,9 +12,10 @@ const path = require('path');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGODB_URL);
-
 const {User:mongooseUser} = require("./mongoose-config");
 
+
+// mongooseUser.findOne({email:"anandanmb01@gmail.com"},(e,d)=>{console.log(d)})
 
 const httpPort = 80;
 const httpsPort=443;

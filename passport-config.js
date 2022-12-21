@@ -5,7 +5,9 @@ const LocalStrategy = require("passport-local").Strategy;
 const passport=require("passport");
 const {User:mongooseUser} = require("./mongoose-config");
 const bcrypt = require('bcrypt');
+var md5 = require('md5');
 
+// mongooseUser.findOne({email:"anandanmb01@gmail.com"},(e,d)=>{console.log(d);});
 
 //----------------------------- Social login--------------------------------//
 //-----------------------------google----------------------------
@@ -15,6 +17,37 @@ passport.use(new GoogleStrategy({
     callbackURL: `${global.serverUrl}/auth/google/callback`
   },
   function(accessToken, refreshToken, profile, done) {
+
+    const hash_ = md5(profile.id+"_google");
+
+    mongooseUser.findOne({id:hash_},(e,d)=>{
+      console.log(d);
+      if(e){
+        done(e);
+      }else{
+
+        if(d==null){
+          const usr={
+            username:profile.emails[0].value.split("@").join("_").split(".")[0],
+            name:profile.displayName.split(" ").join("_"),
+            id:hash_,
+            email:profile.emails[0].value,
+            photo:profile.photos[0].value,
+            authType:"google"
+          }
+          mongooseUser.insertMany([usr],(e,data)=>{
+            if(e){
+              done(e);
+            }else{
+              done(null,{username:data.username,name:data.name,id:data.id,email:data.email,photo:data.photo,});
+            }
+          });
+        }else{
+          done(null,{username:d.username,name:d.name,id:d.id,email:d.email,photo:d.photo,});
+        }
+      }
+      
+    })
 
     const usr={
       username:profile.emails[0].value.split("@").join("_").split(".")[0],
