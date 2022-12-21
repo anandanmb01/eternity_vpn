@@ -47,10 +47,10 @@ function Login(){
               return { ...x, ["username"]: e.target.value };
             });
           }}
-          type="text"
+          type="email"
           className="form-control"
           id="exampleInputEmail1"
-          aria-describedby="emailHelp"
+          ariaDescribedby="emailHelp"
           placeholder="Enter email"
         />
       </div>

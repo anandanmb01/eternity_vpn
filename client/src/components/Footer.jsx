@@ -3,11 +3,10 @@ import "../components/app.css";
 
 function Footer(){
     return(
-        <footer className="footer header m-1">
+        <footer className="footer header">
         <nav className="navbar">
-            <span>Copyright</span>
+            <span>Copyright &copy; eternityvpn.ddns.net</span>
         </nav>
-
         </footer>
     );
 }

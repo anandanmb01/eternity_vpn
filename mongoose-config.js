@@ -12,6 +12,16 @@ const mongoose = require('mongoose');
 
 const User = mongoose.model('User', userSchema);
 
+////////////////////////////////////////////////////
+
+  const emailVerifySchema = new mongoose.Schema({
+    email:String,
+    otp: String,
+
+});
+
+const EmailVerify = mongoose.model('EmailVerify', emailVerifySchema);
+
 // const usr = new User({
 //   name:"Anandan",
 //   username:"abc",
@@ -27,4 +37,4 @@ const User = mongoose.model('User', userSchema);
 //     .then(p => console.log(p))
 //     .catch(error => console.log(error));
 
-module.exports={User}
+module.exports={User,EmailVerify}

@@ -1,26 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap');
 
-.navBarLogo{
+#app{
     display: flex;
-    flex-direction: row;
-    width: 200px;
-    justify-content: space-around;
-
+    flex-direction: column;
+    justify-content: space-between;
 }
+
 .header{
     border-style: solid;
     border-width: 1px;
     border-color: black;
     background-color: whitesmoke;
     border-radius: 7px;
+    height: 54px; 
+        /* height 56+8+8 >> 72px*/
 }
 .footer{
+    /* visibility: hidden; */
     display: flex;
-    width: 80vw;
     justify-content:center ;
     background-color: whitesmoke;
-    position: absolute;
-    bottom: 0;
+    margin-bottom: 8px;
+    /* 54+4+8 */
+}
+#master-content{
+    min-height: calc(100vh - (70px + 66px));
+}
+.navBarLogo{
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+    justify-content: space-around;
 }
 .avatar{
     width: 260px;
@@ -46,7 +56,7 @@
 }
 .content-right{
     display: flex;
-    min-height: 85vh;
+    min-height: 75vh;
     flex-direction: column;
 }
 #content-div{
@@ -57,10 +67,7 @@
 #content-div h1{
     font-family: 'Zen Dots', cursive;
     font-size: 45px;
-    
-
 }    
-
 
 .home-btn{
     margin: 10px;
@@ -68,7 +75,7 @@
 }
 .login{
     width: 100%;
-    min-height: 85vh;
+    min-height: 75vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -192,6 +199,7 @@ align-items: center;
     margin-top: 50px;
 }
 .dashboard-note{
+    padding: 10px;
     margin: 50px 0px 50px 0px;
 }
 .user-dashboard-message p{
@@ -301,12 +309,8 @@ width: 300px;
 /*  */
 
 @media (max-width: 1200px) {
-
     body{
         margin: 0 2.5vw 0 2.5vw;
-    }
-    .footer{
-        width: 95vw;
     }
     .content-left{
         display: none;
@@ -316,7 +320,6 @@ width: 300px;
         height: 80vh;
         flex-direction: column;
         align-items: center ;
-
     }
     #content-div{
         margin: 20px 0 0 0;
@@ -336,6 +339,5 @@ width: 300px;
         font-family: 'Zen Dots', cursive;
         margin-bottom: 30px;
     }
-
 
 }

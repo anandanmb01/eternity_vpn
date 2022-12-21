@@ -1,8 +1,10 @@
 const router = require("express").Router();
 const passport = require("passport");
-const {User:mongooseUser} = require("../mongoose-config");
+const {User:mongooseUser,EmailVerify} = require("../mongoose-config");
 const bcrypt = require('bcrypt');
-
+const otpGenerator = require('otp-generator');
+const mongoose = require('mongoose');
+const {nodeSendMail} =require('../nodemailer-config');
 //-----------------------------Google--------------------------------//
 
 router.get("/google",
@@ -43,12 +45,6 @@ router.get('/facebook',
   });
 
 //--------------------------Local login------------------------------------
-// router.post('/login',(req,res,next)=>{
-//   passport.authenticate('local',(err, user, info)=>{
-//     console.log("iam here");
-//   })
-// });
-
 router.post("/login", (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
       if (err) throw err;
@@ -128,5 +124,33 @@ router.post("/getusr",(req,res)=>{
         res.json({status:false,user:null});
     }
 });
+
+router.post("/verifyemail",(req,res)=>{
+  // console.log(req.body.email)
+  const otp = otpGenerator.generate(6, {digits:true, lowerCaseAlphabets:false, upperCaseAlphabets:false, specialChars:false});
+
+  EmailVerify.findOneAndUpdate({email:req.body.email}, { $set: { otp: otp }}, { upsert: true, new: true, setDefaultsOnInsert: true }, ()=>{});
+
+      nodeSendMail(req.body.email,otp);
+      res.json({status:"ok"});
+      setTimeout(()=>{
+        EmailVerify.deleteOne({email:req.body.email},(e)=>{})
+      }, 30000);
+});
+
+router.post("/verifyotp",(req,res)=>{
+  EmailVerify.find({ email: req.body.email}, function (err, docs) {
+    if (docs===[]){
+      res.json({status:"Time out"})
+    }else{
+      if(docs[0].otp===req.body.otp){
+        res.json({status:"ok"})
+      }else{
+        res.json({status:"otp verification failed"})
+      }
+    }
+    // console.log(docs);
+  });
+})
 
 module.exports = router;

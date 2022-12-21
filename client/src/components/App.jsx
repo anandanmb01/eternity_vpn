@@ -37,8 +37,9 @@ function App() {
 
   // ---------------------------App return-------------------------------------------//
   return (
-    <div className="app">
+    <div id="app">
       <Header/>
+      <div id="master-content">
       <Routes>
         <Route exact path="/" element={<Home/>} />
         <Route path="/login" element={user?<Home/>:<Login />} />
@@ -46,7 +47,8 @@ function App() {
         <Route path="/dashboard/:id" element={user?<UserDashboard/>:<Login />} />
         <Route path="/*" element={<h1>PAGE NOT FOUND</h1>} />
       </Routes>
-      {/* <Footer /> */}
+      </div>
+      <Footer />
     </div>
   );
 }

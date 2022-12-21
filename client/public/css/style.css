@@ -2,6 +2,6 @@ body{
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    margin:0 10vw 0 10vw;
-    
+    margin:0 10vw 0 10vw; 
+    padding: 0px;
 }
