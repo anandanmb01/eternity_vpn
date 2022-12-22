@@ -72,7 +72,7 @@ function(accessToken, refreshToken, profile, done) {
         const usr={
           username:`${profile.username}_github`,
           email:profile._json.email,
-          id:profile.id,
+          id:hash_,
           photo:profile.photos[0].value,
           name:profile.displayName.split(" ").join("_"),
           authType:"github",
@@ -116,7 +116,7 @@ function(accessToken, refreshToken, profile, cb) {
         const usr={
           username:`${profile.emails[0].value.split("@")[0]}_facebook`,
           email:profile.emails[0].value,
-          id:profile.id,
+          id:hash_,
           photo:profile.photos[0].value,
           name:profile.displayName.split(" ").join("_"),
           authType:"facebook"

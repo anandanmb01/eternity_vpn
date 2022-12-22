@@ -71,11 +71,13 @@ function SignUpModal(props) {
 
   function EmailBoxStatus() {
     const [counter, setCounter] = React.useState(timermax);  
+    
     function handleEmailVerify() {
       console.log("send");
       if(signUp.email===""){
-        signUpMessage("Enter email address")
+        signUpMessage("Enter email address");
       }else{
+        signUpMessage("otp hasbeen send to your mail address");
         axios
         .post(window.serverurl + "/auth/verifyemail", { email: signUp.email })
         .then((resp) => {

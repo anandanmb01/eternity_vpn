@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const otpGenerator = require('otp-generator');
 const mongoose = require('mongoose');
 const {nodeSendMail} =require('../nodemailer-config');
+const md5 = require("md5");
+
 //-----------------------------Google--------------------------------//
 
 router.get("/google",
@@ -70,11 +72,17 @@ router.post("/login", (req, res, next) => {
 
 router.post("/register",(req,res)=>{
   // console.log(req.body);
-  const uname=req.body.email.split("@")[0]+"_eternity";
+
+  // gen username
+  const i = req.body.email.split("@");
+  const uname=null;
+  try{uname=i[0]+"_"+i[1].split('.')[0]+"_eternity";}
+  catch{uname=i[0]+"_eternity";}
+
   mongooseUser.findOne({username:uname})
     .then((d)=>{
       // console.log(d);
-
+      // in local id = hash of email
       if (d===null){
         bcrypt.hash(req.body.password,5).then(function(hash) {
           // Store hash in your password DB.
@@ -83,7 +91,7 @@ router.post("/register",(req,res)=>{
             username:uname,
             email:req.body.email,
             photo:req.body.photo,
-            id:"",
+            id:md5(req.body.email),       //hash of email
             authType:"local",
             password:hash,
           })
