@@ -50,7 +50,7 @@ function Login(){
           type="email"
           className="form-control"
           id="exampleInputEmail1"
-          ariaDescribedby="emailHelp"
+          aria-describedby="emailHelp"
           placeholder="Enter email"
         />
       </div>

@@ -10,21 +10,21 @@ import UsrContext from "../context/UsrContext"
 import VpnUsrContext from "../db/VpnUsrContext";
 import { useState } from "react";
 import { useEffect } from "react";
-
+import PayToast from "../components/dash_comp/PayToast"
+import CreateUser from "../components/dash_comp/CreateUser";
 
 
 function UserDashboard() {
 
   const { user } = useContext(UsrContext);
-  const {
-    hubSelect,
-  } = useContext(HubContext);
+  const {hubSelect,} = useContext(HubContext);
 
   const navigate = useNavigate();
   let message = null;
   //create form control
   const [userForm, setUserForm] = useState(false);
   const [changePsk,setChangePsk] = useState(false);
+  const [creditDisp,setCreditDisp] = useState(true);
 
   // context of hub data and user
   
@@ -52,51 +52,7 @@ function UserDashboard() {
   }, []);
 
     // ------------------Create User-------------------//
-    function CreateUser(){
 
-      const [pass,setPass]=useState("");
-
-      function userCreate(event){
-          event.preventDefault();
-          axios.post(window.serverurl+"/api/vpn/createuser",
-          {hub_id: hubSelect,
-            password:pass})
-          .then((res)=>{
-              if(res.data.error){
-                  alert('user not created')
-              }else{
-                  alert('user created')
-              }
-              navigate("/dashboard");
-              
-          })
-
-
-      }
-  //////
-
-  /////
-      return(
-          <div className="card card-style-usr-create">
-  <div className="form-group row">
-  <label htmlFor="staticEmail" className="col-sm-2 col-form-label">username</label>
-  <div className="col-sm-10">
-    <input type="text" readOnly className="form-control-plaintext" id="staticEmail" defaultValue={user.username} />
-  </div>
-</div>
-<div className="form-group row">
-  <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Password</label>
-  <div className="col-sm-10">
-    <input type="password" name="password" className="form-control" id="inputPassword" placeholder="Password" onChange={(event)=>{setPass(event.target.value)}} value={pass} />
-  </div>
-</div>
-<div className="local-dignup-btn-gp">
-  <button className="btn btn-outline-primary btn-sm" onClick={userCreate} >create</button>
-  <span></span>
-  </div>
-          </div>
-      )
-  }
 
   function deleteusr(event){
     event.preventDefault();
@@ -173,7 +129,14 @@ function UserDashboard() {
       {userForm&&<CreateUser/>}
   </div>);
   }
-
+  function UsrGuideClick(x){
+    console.log(x);
+    if(!x){
+      <PayToast/>
+    }else{
+      <></>
+    }
+  }
 
   return (
     <div className="user-dashboard">
@@ -183,8 +146,9 @@ function UserDashboard() {
       <div>
         <p>{`You are now connected to ${hubSelect}`}</p>
       </div>
-      {Object.keys(vpnUsr).length === 0?<UsrCreateForm/>:<><VpnUsrDisp/><UserMod/></>}
+      {Object.keys(vpnUsr).length === 0?<><UsrCreateForm/><PayToast/></>:<><VpnUsrDisp guideVar={setCreditDisp} /><UserMod/>{creditDisp?<PayToast/>:<></>}</>}
       {changePsk&&<ChangeUsrPsk/>}
+      
     </div>
   )
 }

@@ -3,62 +3,18 @@ import VpnUsrContext from "../db/VpnUsrContext";
 import UsrContext from "../context/UsrContext";
 import "../components/app.css";
 import {useState} from "react";
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
-import {Windows,Android,Mac,Linux,Ios} from "../pages/instructions";
 import HubContext from "../context/HubContext";
+import VpnUsrGuide from "./dash_comp/VpnUsrGuide";
 
-function VpnUsrDisp(){
+
+function VpnUsrDisp(props){
 
     const {vpnUsr} = useContext(VpnUsrContext);
     const {user} = useContext(UsrContext);
     const [vpnUsrGuide,setVpnUsrGuide] =useState(false);
     const {hubSelect} = useContext(HubContext);
-
-
-    function VpnUsrGuidei(){
-        return(
-            <div className="col-lg-6 vpn-usr-disp vpn-usr-guide shadow">
-                    <Tabs
-                    defaultActiveKey="overview"
-                    id="uncontrolled-tab-example"
-                    className="mb-3"
-                    >
-                        <Tab eventKey="overview" title="overview">
-                            <div style={{display:"flex",justifyContent:"centre",alignItems:"center"}}>
-                                <img style={{width:"700px"}}src="/images/client.png" alt=""></img>
-                            </div>
-                        </Tab>
-                        <Tab eventKey="windows" title="windows">
-                            <div style={{overflowY:"scroll",height:"650px"}}>
-                                <Windows/>
-                            </div>
-                        </Tab>
-                        <Tab eventKey="mac" title="mac">
-                            <div style={{overflowY:"scroll",height:"650px"}}>
-                                <Mac/>
-                            </div>
-                        </Tab>
-                        <Tab eventKey="linux" title="linux">
-                            <div style={{overflowY:"scroll",height:"650px"}}>
-                                <Linux/>
-                            </div>
-                        </Tab>
-                        <Tab eventKey="android" title="android" >
-                            <div style={{overflowY:"scroll",height:"650px"}}>
-                            <Android/>
-                            </div>
-                        </Tab>
-                        <Tab eventKey="ios" title="ios">
-                            <div style={{overflowY:"scroll",height:"650px"}}>
-                            <Ios/>
-                            </div>
-                        </Tab>
-                    </Tabs>
-            </div>
-        )
-    }
-
+    props.guideVar(!vpnUsrGuide);
+    
     return(
         <div className="row">
         {/* ////----- */}
@@ -125,11 +81,9 @@ function VpnUsrDisp(){
                 </tbody>
             </table>
             </div>
-        {/* {`${JSON.stringify(vpnUsr)}`} */}
         <><p style={{cursor:"pointer",}} onClick={()=>{setVpnUsrGuide(!vpnUsrGuide)}}>User guide&emsp;{vpnUsrGuide&&<div className="spinner-border text-dark spinner-border-sm" role="status"></div>}</p></>
         </div>
-        {/* ////---- */}
-        {vpnUsrGuide&&<VpnUsrGuidei/>}
+        {vpnUsrGuide&&<VpnUsrGuide/>}
         </div>
     )
 }

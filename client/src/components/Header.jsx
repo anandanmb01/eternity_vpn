@@ -6,6 +6,8 @@ import axios from "axios";
 import "../components/app.css";
 import UsrContext from "../context/UsrContext";
 import { useContext } from "react";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import AvatarDropDown from "./dash_comp/AvatarDropDown";
 
 function Header(props) {
 
@@ -47,12 +49,14 @@ function Header(props) {
     return (
       <div className="avatar">
         <span>{user.name}</span>
-        <img src={user.photo?user.photo:'images/login.png'} alt="" width="35px" height="35px" />
+        <OverlayTrigger trigger="click" placement="bottom" overlay={AvatarDropDown}>
+          <img src={user.photo?user.photo:'images/login.png'} alt="" width="35px" height="35px" />
+        </OverlayTrigger>
+
         <span id="logout" onClick={handleLogout}>Logout</span>
       </div>
     );
   }
-
 
   return (
     <div className="header m-2">
@@ -60,6 +64,7 @@ function Header(props) {
         <Link to="/">
           <div className="navBarLogo">
             <img src="/images/infinity.png" alt="" width="40px" height="40px" />
+          
             <span className="navbar-brand">Eternity VPN</span>
           </div>
         </Link>

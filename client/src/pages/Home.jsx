@@ -30,6 +30,7 @@ const navigate =useNavigate();
                         {user&&(<button className="btn btn-outline-secondary home-btn" onClick={handleDashboard}>Dashboard</button>)}
                         
                     </div>
+                    
                 </div>
 
             </div>

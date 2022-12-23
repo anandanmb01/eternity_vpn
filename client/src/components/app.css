@@ -306,6 +306,16 @@ align-items: center;
 .sign-up-footer{
 width: 300px;
 }
+
+.horizontal-scrollable > .row {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+}
+  
+.horizontal-scrollable > .row > .col-xs-4 {
+    display: inline-block;
+    float: none;
+}
 /*  */
 
 @media (max-width: 1200px) {

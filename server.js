@@ -12,10 +12,6 @@ const path = require('path');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGODB_URL);
-const {User:mongooseUser} = require("./mongoose-config");
-
-
-// mongooseUser.findOne({email:"anandanmb01@gmail.com"},(e,d)=>{console.log(d)})
 
 const httpPort = 80;
 const httpsPort=443;
@@ -68,6 +64,7 @@ const httpsServer = https.createServer(httpsOptions, app);
 
 const authRouter = require("./routes/auth");
 const apiRouter = require("./routes/api");
+const paymentRouter = require("./routes/payments");
 
 
 //--------------------------Middleware initilization---------------------------------//
@@ -109,12 +106,14 @@ app.use("/api", (req, res, next) => {
 
 app.use("/auth", authRouter);
 app.use("/api", apiRouter);
+app.use("/payments", paymentRouter);
 
 //---------------------------Route-----------------------------------------//
 
 app.get("/api", (req, res) => {
   res.json({ status: "hello" });
 });
+
 
 app.route("*").get((req, res) => {
   // res.render("home");
