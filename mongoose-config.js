@@ -23,6 +23,18 @@ const User = mongoose.model('User', userSchema);
 
 const EmailVerify = mongoose.model('EmailVerify', emailVerifySchema);
 
+const OrderSchema = mongoose.Schema({
+  isPaid: Boolean,
+  userId:String,
+  planId:Number,
+  razorpay: {
+    orderId: String,
+    paymentId: String,
+    signature: String,
+  },
+});
+const Order = mongoose.model('Order', OrderSchema);
+
 // const usr = new User({
 //   name:"Anandan",
 //   username:"abc",
@@ -38,4 +50,4 @@ const EmailVerify = mongoose.model('EmailVerify', emailVerifySchema);
 //     .then(p => console.log(p))
 //     .catch(error => console.log(error));
 
-module.exports={User,EmailVerify}
+module.exports={User,EmailVerify,Order}

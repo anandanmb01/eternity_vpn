@@ -42,7 +42,7 @@ if ((process.env.NODE_ENV || "development")=="production"){
   });
 
 }else{
-
+  console.log("development server")
   global.serverUrl = `http://localhost:${port}`;
   global.clientUrl = `http://localhost:${clientPort}`;
   app.use(
@@ -70,6 +70,7 @@ const paymentRouter = require("./routes/payments");
 //--------------------------Middleware initilization---------------------------------//
 
 // support parsing of application/json type post data
+
 app.use(bodyParser.json());
 
 //support parsing of application/x-www-form-urlencoded post data

@@ -75,9 +75,9 @@ function SignUpModal(props) {
     function handleEmailVerify() {
       console.log("send");
       if(signUp.email===""){
-        signUpMessage("Enter email address");
+        setSignUpMessage("Enter email address");
       }else{
-        signUpMessage("otp hasbeen send to your mail address");
+        setSignUpMessage("otp hasbeen send to your mail address");
         axios
         .post(window.serverurl + "/auth/verifyemail", { email: signUp.email })
         .then((resp) => {
