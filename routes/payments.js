@@ -21,9 +21,10 @@ router.post('/createOrder', async (req, res) => {
       key_secret: process.env.RAZORPAY_SECRET,
     });
     const options = {
-      amount: paymentPlans[req.body.planId].amount,
+      amount: parseInt(paymentPlans[req.body.planId].amount),
       currency: 'INR',
     };
+    console.log(options)
     const order = await instance.orders.create(options);
     if (!order) return res.status(500).send('Some error occured');
     res.send(order);
@@ -38,7 +39,7 @@ router.post('/payOrder', async (req, res) => {
       req.body;
     const newOrder = Order({
       isPaid: true,
-      amount: paymentPlans[planId].amount,
+      amount: parseInt(paymentPlans[planId].amount),
       razorpay: {
         orderId: razorpayOrderId,
         paymentId: razorpayPaymentId,

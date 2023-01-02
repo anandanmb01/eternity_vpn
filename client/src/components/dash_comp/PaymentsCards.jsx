@@ -1,12 +1,14 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import Alert from '../Alert';
 
 
 function PaymentsCards(props) {
   const [loading, setLoading] = useState(false);
-  const [orderAmount, setOrderAmount] = useState(0);
+  // const [orderAmount, setOrderAmount] = useState(0);
+  const [message,setMessage] = useState(null);
 
   ////////////////////////////
 
@@ -15,18 +17,18 @@ function PaymentsCards(props) {
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.onerror = () => {
-      alert('Razorpay SDK failed to load. Are you online?');
+      setMessage('Razorpay SDK failed to load. Are you online?');
     };
     script.onload = async () => {
       try {
         setLoading(true);
-        const result = await axios.post('/create-order', {
+        const result = await axios.post(window.serverurl +'/payments/createOrder', {
           planId:props.data.planId,
         });
         const { amount, id: order_id, currency } = result.data;
         const {
           data: { key: razorpayKey },
-        } = await axios.get('/get-razorpay-key');
+        } = await axios.get(window.serverurl +'/payments/getRazorpayKey');
 
         const options = {
           key: razorpayKey,
@@ -36,13 +38,13 @@ function PaymentsCards(props) {
           description: 'example transaction',
           order_id: order_id,
           handler: async function (response) {
-            const result = await axios.post('/pay-order', {
+            const result = await axios.post(window.serverurl +'/payments/payOrder', {
               amount: amount,
               razorpayPaymentId: response.razorpay_payment_id,
               razorpayOrderId: response.razorpay_order_id,
               razorpaySignature: response.razorpay_signature,
             });
-            alert(result.data.msg);
+            setMessage(result.data.msg);
             // fetchOrders();
           },
           prefill: {
@@ -62,7 +64,7 @@ function PaymentsCards(props) {
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
       } catch (err) {
-        alert(err);
+        setMessage(err);
         setLoading(false);
       }
     };
@@ -90,6 +92,7 @@ function PaymentsCards(props) {
             <Button disabled={loading} onClick={loadRazorpay} className="mb-2 mx-auto" variant="primary">{loading ? <div>Loading...</div> : <div>Buy now</div>}</Button>
         </div>
       </Card.Body>
+      <Alert message={message}/>
     </Card>
   );
 }

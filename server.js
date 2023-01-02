@@ -43,11 +43,11 @@ if ((process.env.NODE_ENV || "development")=="production"){
 
 }else{
   console.log("development server")
-  global.serverUrl = `http://localhost:${port}`;
-  global.clientUrl = `http://localhost:${clientPort}`;
+  global.serverUrl = `http://127.0.0.1:${port}`;
+  global.clientUrl = `http://127.0.0.1:${clientPort}`;
   app.use(
         cors({
-          origin: [global.clientUrl,global.serverUrl],
+          origin: [global.clientUrl],
           methods: ["GET", "POST", "PUT", "DELETE"],
           credentials: true,
           preflightContinue: true,

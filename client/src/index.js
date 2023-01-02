@@ -5,6 +5,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { HubProvider } from "./context/HubContext.js";
 import { UsrProvider } from "./context/UsrContext.js";
 import { VpnUsrProvider } from "./db/VpnUsrContext.js";
+import { AlertProvider } from "./context/AlertContext.js";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -12,9 +14,11 @@ root.render(
   <UsrProvider>
     <VpnUsrProvider>
       <HubProvider>
+        <AlertProvider>
         <Router>
           <App />
         </Router>
+        </AlertProvider>
       </HubProvider>
     </VpnUsrProvider>
   </UsrProvider>
