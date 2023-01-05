@@ -18,6 +18,16 @@ window.serverurl=process.env.REACT_APP_SERVER_URL;
 // use cookie for all axios query
 axios.defaults.withCredentials = true;
 
+axios.interceptors.request.use(request => {
+  console.log('Starting Request', JSON.stringify(request, null, 2))
+  return request
+})
+
+// axios.interceptors.response.use(response => {
+//   console.log('Response:', JSON.stringify(response, null, 2))
+//   return response
+// })
+
 function App() {
 
   const { user, setUser } = useContext(UsrContext);

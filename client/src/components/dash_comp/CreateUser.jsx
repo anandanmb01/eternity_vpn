@@ -15,8 +15,6 @@ function CreateUser(){
     const [pass,setPass]=useState("");
     const navigate = useNavigate();
 
-    axios.defaults.withCredentials = true
-
     function userCreate(event){
         event.preventDefault();
         axios.post(window.serverurl+"/api/vpn/createuser",
@@ -25,16 +23,12 @@ function CreateUser(){
 
         .then((res)=>{
 
-            if(res.data.redirect){
-                navigate("/login");
-            }else{
                 if(res.data.error){
                     setAlert('user not created');
                 }else{
                     setAlert('user created');
                 }
-                navigate("/dashboard");  
-            }
+                navigate("/dashboard"); 
                      
         })
     }

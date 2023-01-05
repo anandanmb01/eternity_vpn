@@ -93,10 +93,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
-//-------------------Safety middleware----------------------------------//
-
 app.use("/api", (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
@@ -106,9 +102,16 @@ app.use("/api", (req, res, next) => {
   }
 });
 
+
+//-------------------Safety middleware----------------------------------//
+
+
+
 app.use("/auth", authRouter);
 app.use("/api", apiRouter);
 app.use("/payments", paymentRouter);
+
+
 
 //---------------------------Route-----------------------------------------//
 

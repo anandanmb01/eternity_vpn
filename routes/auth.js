@@ -19,7 +19,6 @@ router.get("/google/callback",
     failureMessage: true,
   }),
   (req, res) => {
-    console.log(global.clientUrl+"/");
     res.redirect(global.clientUrl+"/");
     
   }

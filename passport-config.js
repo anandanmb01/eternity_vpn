@@ -18,7 +18,6 @@ passport.use(new GoogleStrategy({
 
   },
   function(accessToken, refreshToken, profile, done) {
-
     const hash_ = md5(profile.id+"_google");
 
     mongooseUser.findOne({id:hash_},(e,d)=>{
