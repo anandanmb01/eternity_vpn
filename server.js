@@ -43,11 +43,11 @@ if ((process.env.NODE_ENV || "development")=="production"){
 
 }else{
   console.log("development server")
-  global.serverUrl = `http://127.0.0.1:${port}`;
-  global.clientUrl = `http://127.0.0.1:${clientPort}`;
+  global.serverUrl = `http://localhost:${port}`;
+  global.clientUrl = `http://localhost:${clientPort}`;
   app.use(
         cors({
-          origin: [global.clientUrl],
+          origin: ["http://127.0.0.1:5000","http://127.0.0.1:3000","http://localhost:5000","http://localhost:3000"],
           methods: ["GET", "POST", "PUT", "DELETE"],
           credentials: true,
           preflightContinue: true,
@@ -101,6 +101,7 @@ app.use("/api", (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
   } else {
+    console.log("user not authenticated");
     res.json({ redirect: true });
   }
 });

@@ -3,7 +3,7 @@ paymentPlans=[{
     name:"Plan 1",
     noOfHub:1,
     noOfDays:30,
-    amount:49,
+    amount:149,
     photoUrl:"/images/infinity.png",
 },
 {
@@ -11,7 +11,7 @@ paymentPlans=[{
     name:"Plan 2",
     noOfHub:3,
     noOfDays:30,
-    amount:99,
+    amount:199,
     photoUrl:"/images/infinity.png",
 },
 {
@@ -19,7 +19,7 @@ paymentPlans=[{
     name:"Plan 3",
     noOfHub:5,
     noOfDays:30,
-    amount:149,
+    amount:249,
     photoUrl:"/images/infinity.png",
 },
 {
@@ -27,7 +27,7 @@ paymentPlans=[{
     name:"Plan 4",
     noOfHub:1,
     noOfDays:60,
-    amount:199,
+    amount:299,
     photoUrl:"/images/infinity.png",
 },
 {
@@ -35,7 +35,7 @@ paymentPlans=[{
     name:"Plan 5",
     noOfHub:3,
     noOfDays:60,
-    amount:249,
+    amount:349,
     photoUrl:"/images/infinity.png",
 },
 {
@@ -43,7 +43,7 @@ paymentPlans=[{
     name:"Plan 6",
     noOfHub:5,
     noOfDays:60,
-    amount:299,
+    amount:399,
     photoUrl:"/images/infinity.png",
 },
 ]

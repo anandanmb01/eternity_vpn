@@ -5,26 +5,37 @@ import {useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import UsrContext from "../../context/UsrContext";
 import HubContext from "../../context/HubContext";
+import AlertContext from "../../context/AlertContext";
+
 
 function CreateUser(){
+    const {setAlert} = useContext(AlertContext);
     const { user } = useContext(UsrContext);
     const {hubSelect,} = useContext(HubContext);
     const [pass,setPass]=useState("");
     const navigate = useNavigate();
 
+    axios.defaults.withCredentials = true
 
     function userCreate(event){
         event.preventDefault();
         axios.post(window.serverurl+"/api/vpn/createuser",
         {hub_id: hubSelect,
           password:pass})
+
         .then((res)=>{
-            if(res.data.error){
-                alert('user not created')
+
+            if(res.data.redirect){
+                navigate("/login");
             }else{
-                alert('user created')
+                if(res.data.error){
+                    setAlert('user not created');
+                }else{
+                    setAlert('user created');
+                }
+                navigate("/dashboard");  
             }
-            navigate("/dashboard");           
+                     
         })
     }
     

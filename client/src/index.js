@@ -11,16 +11,17 @@ import { AlertProvider } from "./context/AlertContext.js";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
+  <AlertProvider>
   <UsrProvider>
     <VpnUsrProvider>
       <HubProvider>
-        <AlertProvider>
         <Router>
           <App />
         </Router>
-        </AlertProvider>
       </HubProvider>
     </VpnUsrProvider>
   </UsrProvider>
+  </AlertProvider>
+
   // </React.StrictMode>
 );

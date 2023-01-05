@@ -11,7 +11,6 @@ import UserDashboard from "../pages/UserDashboard";
 import UsrContext from "../context/UsrContext";
 import { useContext } from "react";
 import Alert from "./Alert";
-// import AlertContext from "../context/AlertContext";
 
 
 window.serverurl=process.env.REACT_APP_SERVER_URL;
@@ -36,6 +35,7 @@ function App() {
       .finally(() => {});
       // eslint-disable-next-line
   }, []);
+
 
   // ---------------------------App return-------------------------------------------//
   return (

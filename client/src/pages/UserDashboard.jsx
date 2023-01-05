@@ -12,10 +12,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import PayToast from "../components/dash_comp/PayToast"
 import CreateUser from "../components/dash_comp/CreateUser";
+import AlertContext from "../context/AlertContext";
 
 
 function UserDashboard() {
 
+  const {setAlert} = useContext(AlertContext);
   const { user } = useContext(UsrContext);
   const {hubSelect,} = useContext(HubContext);
 
@@ -60,9 +62,9 @@ function UserDashboard() {
           {hub_id: hubSelect})
           .then((res)=>{
               if(res.data.error){
-                  alert('user not deleted [ error occured ]')
+                setAlert('user not deleted [ error occured ]')
               }else{
-                  alert('user deleted')
+                setAlert('user deleted')
               }
               navigate("/dashboard");
               
@@ -79,9 +81,9 @@ function UserDashboard() {
         password:pass_})
       .then((res)=>{
           if(res.data.error){
-              alert('password updation unsucessful');
+            setAlert('password updation unsucessful');
           }else{
-              alert('user password updated');
+            setAlert('user password updated');
           }
           navigate("/dashboard");
           
@@ -129,14 +131,7 @@ function UserDashboard() {
       {userForm&&<CreateUser/>}
   </div>);
   }
-  function UsrGuideClick(x){
-    console.log(x);
-    if(!x){
-      <PayToast/>
-    }else{
-      <></>
-    }
-  }
+
 
   return (
     <div className="user-dashboard">

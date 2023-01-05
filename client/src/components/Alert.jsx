@@ -14,7 +14,7 @@ function Alert(props) {
   return (
     <>
       <ToastContainer position={position} className="p-3 ">
-      <Toast show={showAlert} onClose={toggleShowAlert}>
+      <Toast show={showAlert} onClose={()=>{toggleShowAlert()}}>
         <Toast.Header>
           <img
             src="holder.js/20x20?text=%20"
@@ -24,7 +24,7 @@ function Alert(props) {
           <strong className="me-auto">Eternity-vpn</strong>
           <small>notification</small>
         </Toast.Header>
-        <Toast.Body>{`${alertMessage}`}</Toast.Body>
+        <Toast.Body>{alertMessage}</Toast.Body>
       </Toast>     
       </ToastContainer>
     </>

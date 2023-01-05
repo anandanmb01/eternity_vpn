@@ -5,15 +5,18 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../components/app.css";
 import InputGroup from "react-bootstrap/InputGroup";
+import AlertContext from "../context/AlertContext";
 
 const timermax = 300; //sec
 
 function SignUpModal(props) {
+
+  const {setAlert} =useContext(AlertContext);
   let otp="";
   const [counterDisp,setCounterDisp] = useState(true);
   const [signUpEnable, setSignUpEnable] = useState(false);
@@ -57,7 +60,7 @@ function SignUpModal(props) {
                 password: signUp.password,
               })
               .then((resp) => {
-                alert(resp.data.result);
+                setAlert(resp.data.result);
                 navigate(resp.data.redirect);
                 // console.log(resp.data)
               });

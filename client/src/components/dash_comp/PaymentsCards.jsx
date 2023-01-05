@@ -2,13 +2,16 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import React, { useState } from 'react';
-import Alert from '../Alert';
-
+import UsrContext from '../../context/UsrContext';
+import AlertContext from '../../context/AlertContext';
+import { useContext } from 'react';
 
 function PaymentsCards(props) {
   const [loading, setLoading] = useState(false);
   // const [orderAmount, setOrderAmount] = useState(0);
   const [message,setMessage] = useState(null);
+  const {showAlert,toggleShowAlert,setAlert,setShowAlert} = useContext(AlertContext);
+
 
   ////////////////////////////
 
@@ -92,7 +95,6 @@ function PaymentsCards(props) {
             <Button disabled={loading} onClick={loadRazorpay} className="mb-2 mx-auto" variant="primary">{loading ? <div>Loading...</div> : <div>Buy now</div>}</Button>
         </div>
       </Card.Body>
-      <Alert message={message}/>
     </Card>
   );
 }
