@@ -16,9 +16,16 @@ const {
   Qatar__eternity_hub_03,
 } = require("../vpncmd-config");
 
+//----------------------------------------------//
+router_api.post("/vpn/test",(req,res)=>{
+  console.log(req.user);
+  res.json({res:"ok"});
+});
+
 //------------------ routes---------------------------//
 router_api.post("/vpn/connect", (req, res) => {
-        eval(req.body.hub_id)
+
+    eval(req.body.hub_id)
         .executeCommand(`UserGet ${req.user.username}`)
         .then((resp) => {
           res.json({
@@ -26,18 +33,18 @@ router_api.post("/vpn/connect", (req, res) => {
             data: resp,
             error:null
           });
-        }).catch((e)=>{
+        })
+        .catch((e)=>{
             console.log(e);
             res.json({
                 redirect:false,
                 error:true
             })
-        })
+        })    
 });
 
 router_api.post("/vpn/createuser",(req,res)=>{
   (async ()=>{
-
     const today = new Date()
     let date_ob =  new Date()
     date_ob.setDate(today.getDate() + freeTireDays);
@@ -45,18 +52,17 @@ router_api.post("/vpn/createuser",(req,res)=>{
     await eval(req.body.hub_id).executeCommand(`UserCreate ${req.user.username} /GROUP:none /REALNAME:${req.user.name} /NOTE:${req.user.id}`)
     await eval(req.body.hub_id).executeCommand(`UserPasswordSet ${req.user.username} /PASSWORD:${req.body.password}`)
     await eval(req.body.hub_id).executeCommand(`UserExpiresSet ${req.user.username} /EXPIRES:"${String(date_ob.getFullYear()).padStart(4, '0')}/${String(date_ob.getMonth()).padStart(2, '0')}/${String(date_ob.getDate()).padStart(2, '0')} ${String(date_ob.getHours()).padStart(2, '0')}:${String(date_ob.getMinutes()).padStart(2, '0')}:${String(date_ob.getSeconds()).padStart(2, '0')}"`)
-    
+
     res.json({
       error:false
   });
   
-  }catch{
-      (e)=>{
+  }catch(e){
         console.log(e);
           res.json({
               error:true
           })
-      }}
+      }
 })();
 });
 

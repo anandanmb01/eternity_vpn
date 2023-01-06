@@ -20,7 +20,6 @@ function CreateUser(){
         axios.post(window.serverurl+"/api/vpn/createuser",
         {hub_id: hubSelect,
           password:pass})
-
         .then((res)=>{
 
                 if(res.data.error){

@@ -1,13 +1,11 @@
 
-import React, { useState } from 'react';
-import Form from 'react-bootstrap/Form';
+import React from 'react';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import { Button } from 'react-bootstrap';
 import PlaymentPlans from './PlaymentPlans';
 
 function PayToast() {
-  const [position, setPosition] = useState('top-start');
   const [paymentPlan, setPaymentPlan] = React.useState(false);
   if(!paymentPlan){
   return (
@@ -23,7 +21,7 @@ function PayToast() {
               <strong className="me-auto">Credit status</strong>
               <small>Free tier</small>
             </Toast.Header>
-            <Toast.Body>
+            <Toast.Body>    
               <marquee width="95%" direction="left" height="30px">
               You are using the free tier version of eternity vpn valid for 10days purchase paid plans for premium experience
               </marquee>

@@ -1,7 +1,5 @@
 import React from "react";
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Card from 'react-bootstrap/Card';
 import PaymentsCards from "./PaymentsCards";
 import { useEffect } from "react";
 import axios from "axios";
