@@ -4,7 +4,7 @@ import App from "./components/App.jsx";
 import { BrowserRouter as Router } from "react-router-dom";
 import { HubProvider } from "./context/HubContext.js";
 import { UsrProvider } from "./context/UsrContext.js";
-import { VpnUsrProvider } from "./db/VpnUsrContext.js";
+import { VpnUsrProvider } from "./context/VpnUsrContext.js";
 import { AlertProvider } from "./context/AlertContext.js";
 
 

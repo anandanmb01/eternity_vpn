@@ -7,7 +7,7 @@ import {useContext} from "react";
 import VpnUsrDisp from "../components/VpnUsrDisp";
 import HubContext from "../context/HubContext";
 import UsrContext from "../context/UsrContext"
-import VpnUsrContext from "../db/VpnUsrContext";
+import VpnUsrContext from "../context/VpnUsrContext";
 import { useState } from "react";
 import { useEffect } from "react";
 import PayToast from "../components/dash_comp/PayToast"

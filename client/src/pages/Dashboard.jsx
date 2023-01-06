@@ -75,10 +75,10 @@ function Dashboard(props) {
       {locSelection ? <Hub vpnHubs={vpnHubs[locSelection]} /> : <></>}
 
       <div className="hub-connect">
-        {hubSelect ? (<button className="btn btn-outline-secondary" name={hubSelect} onClick={() => { connect_to_hub(hubSelect);}}>connect to hub{" "}<img src="/images/send_arrow.png" alt="" height="30px" /></button>) : (<></>)}
+        {hubSelect ? (<button className="btn btn-outline-secondary shadow-sm" name={hubSelect} onClick={() => { connect_to_hub(hubSelect);}}>connect to hub{" "}<img src="/images/send_arrow.png" alt="" height="30px" /></button>) : (<></>)}
       </div>
       <div>
-        <p className="card dashboard-note">
+        <p className="card dashboard-note shadow-sm">
             Hubs in eternity vpn are virtualized network switches ,which allows friends on the same client to be feel like global local network ,serving as the function on local file transfer multiplayer gaming etc as we were in a local network
         </p>
       </div>
