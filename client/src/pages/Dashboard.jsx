@@ -22,7 +22,7 @@ function Dashboard(props) {
   } = useContext(HubContext);
 
   function connect_to_hub() {
-    navigate(`/dashboard/${user.id}`);
+    navigate("/dashboard/user");
   }
 
   function Hub(props) {

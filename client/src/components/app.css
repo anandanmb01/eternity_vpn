@@ -206,8 +206,7 @@ align-items: center;
     color: crimson;
 }
 .card-style-usr-create{
-    width:650px;
-    height:200px;
+    width:700px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;

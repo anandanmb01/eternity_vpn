@@ -13,13 +13,15 @@ root.render(
   // <React.StrictMode>
   <AlertProvider>
   <UsrProvider>
+  <HubProvider>
     <VpnUsrProvider>
-      <HubProvider>
+      
         <Router>
           <App />
         </Router>
-      </HubProvider>
+      
     </VpnUsrProvider>
+    </HubProvider>
   </UsrProvider>
   </AlertProvider>
 

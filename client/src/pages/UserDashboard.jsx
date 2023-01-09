@@ -22,6 +22,9 @@ function UserDashboard() {
   const {hubSelect,} = useContext(HubContext);
 
   const navigate = useNavigate();
+
+
+
   let message = null;
   //create form control
   const [userForm, setUserForm] = useState(false);
@@ -50,6 +53,8 @@ function UserDashboard() {
             setVpnUsr(res.data);
           }
         }
+      }).catch((e)=>{
+        console.log(e);
       });
   }, []);
 
@@ -85,7 +90,8 @@ function UserDashboard() {
           }else{
             setAlert('user password updated');
           }
-          navigate("/dashboard");
+          setChangePsk(false);
+          navigate("/dashboard/user");
           
       })
 
@@ -141,10 +147,20 @@ function UserDashboard() {
       <div>
         <p>{`You are now connected to ${hubSelect}`}</p>
       </div>
-      {Object.keys(vpnUsr).length === 0?<><UsrCreateForm/><PayToast/></>:<><VpnUsrDisp guideVar={setCreditDisp} /><UserMod/>{creditDisp?<PayToast/>:<></>}</>}
-      {changePsk&&<ChangeUsrPsk/>}
-      
+      {Object.keys(vpnUsr).length === 0 ? (
+        <>
+          <UsrCreateForm />
+          <PayToast />
+        </>
+      ) : (
+        <>
+          <VpnUsrDisp guideVar={setCreditDisp} />
+          <UserMod />
+          {creditDisp ? <PayToast /> : <></>}
+        </>
+      )}
+      {changePsk && <ChangeUsrPsk />}
     </div>
-  )
+  );
 }
 export default UserDashboard;

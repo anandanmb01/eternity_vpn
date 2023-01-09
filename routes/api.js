@@ -43,27 +43,30 @@ router_api.post("/vpn/connect", (req, res) => {
         })    
 });
 
-router_api.post("/vpn/createuser",(req,res)=>{
-  (async ()=>{
-    const today = new Date()
-    let date_ob =  new Date()
+router_api.post("/vpn/createuser",async (req,res,next)=>{
+    const today = new Date();
+    let date_ob =  new Date();
     date_ob.setDate(today.getDate() + freeTireDays);
     try{
-    await eval(req.body.hub_id).executeCommand(`UserCreate ${req.user.username} /GROUP:none /REALNAME:${req.user.name} /NOTE:${req.user.id}`)
-    await eval(req.body.hub_id).executeCommand(`UserPasswordSet ${req.user.username} /PASSWORD:${req.body.password}`)
-    await eval(req.body.hub_id).executeCommand(`UserExpiresSet ${req.user.username} /EXPIRES:"${String(date_ob.getFullYear()).padStart(4, '0')}/${String(date_ob.getMonth()).padStart(2, '0')}/${String(date_ob.getDate()).padStart(2, '0')} ${String(date_ob.getHours()).padStart(2, '0')}:${String(date_ob.getMinutes()).padStart(2, '0')}:${String(date_ob.getSeconds()).padStart(2, '0')}"`)
+    await eval(req.body.hub_id).executeCommand(`UserCreate ${req.user.username} /GROUP:none /REALNAME:${req.user.name} /NOTE:${req.user.id}`).then(()=>{console.log("complete");})
+    await eval(req.body.hub_id).executeCommand(`UserPasswordSet ${req.user.username} /PASSWORD:${req.body.password}`).then(()=>{console.log("complete");})
+    await eval(req.body.hub_id).executeCommand(`UserExpiresSet ${req.user.username} /EXPIRES:"${String(date_ob.getFullYear()).padStart(4, '0')}/${String(date_ob.getMonth()).padStart(2, '0')}/${String(date_ob.getDate()).padStart(2, '0')} ${String(date_ob.getHours()).padStart(2, '0')}:${String(date_ob.getMinutes()).padStart(2, '0')}:${String(date_ob.getSeconds()).padStart(2, '0')}"`).then(()=>{console.log("complete");})
+    
 
-    res.json({
-      error:false
-  });
-  
+    // await eval(req.body.hub_id).executeCommand(`UserGet anandanmb`).then(()=>{console.log("complete");})
+    // await eval(req.body.hub_id).executeCommand(`UserGet anandanmb`).then(()=>{console.log("complete");})
+    // await eval(req.body.hub_id).executeCommand(`UserGet anandanmb`).then(()=>{console.log("complete");})
+
+
+
+    res.json({error:false});
+    
   }catch(e){
         console.log(e);
           res.json({
               error:true
           })
       }
-})();
 });
 
 router_api.post("/vpn/deleteuser",(req,res)=>{

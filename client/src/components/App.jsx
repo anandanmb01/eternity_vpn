@@ -18,11 +18,13 @@ window.serverurl=process.env.REACT_APP_SERVER_URL;
 // use cookie for all axios query
 axios.defaults.withCredentials = true;
 
-axios.interceptors.request.use(request => {
-  console.log('Starting Request', JSON.stringify(request, null, 2))
-  return request
-});
+// request
+// axios.interceptors.request.use(request => {
+//   console.log('Starting Request', JSON.stringify(request, null, 2))
+//   return request
+// });
 
+// response
 // axios.interceptors.response.use(response => {
 //   console.log('Response:', JSON.stringify(response, null, 2))
 //   return response
@@ -56,7 +58,7 @@ function App() {
         <Route exact path="/" element={<Home/>} />
         <Route path="/login" element={user?<Home/>:<Login />} />
         <Route path="/dashboard" element={user?<Dashboard/>:<Login />}/>
-        <Route path="/dashboard/:id" element={user?<UserDashboard/>:<Login />} />
+        <Route path="/dashboard/user" element={user?<UserDashboard/>:<Login />} />
         <Route path="/*" element={<h1>PAGE NOT FOUND</h1>} />
       </Routes>
       </div>

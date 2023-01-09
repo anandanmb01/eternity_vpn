@@ -12,6 +12,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGODB_URL);
+const morganBody = require ('morgan-body');
 
 const httpPort = 80;
 const httpsPort=443;
@@ -53,6 +54,9 @@ if ((process.env.NODE_ENV || "development")=="production"){
           preflightContinue: true,
         })
       );
+
+  // hook morganBody to express app
+  morganBody(app);
     
 }
 
@@ -93,14 +97,13 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/api", (req, res, next) => {
-  if (req.isAuthenticated()) {
-    next();
-  } else {
-    console.log("user not authenticated");
-    res.json({ redirect: true });
-  }
-});
+// app.use("/api", (req, res, next) => {
+//   if (req.isAuthenticated()) {
+//     next();
+//   } else {
+//     res.json({ redirect: true });
+//   }
+// });
 
 
 //-------------------Safety middleware----------------------------------//
