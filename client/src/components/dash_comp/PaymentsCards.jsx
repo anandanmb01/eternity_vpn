@@ -1,22 +1,27 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState ,useContext} from 'react';
+import AlertContext from '../../context/AlertContext';
+import { useNavigate } from 'react-router-dom';
+import HubContext from '../../context/HubContext';
+
 
 function PaymentsCards(props) {
   const [loading, setLoading] = useState(false);
-  // const [orderAmount, setOrderAmount] = useState(0);
-  const [setMessage] = useState(null);
-
+  const {setAlert} = useContext(AlertContext);
+  const navigate = useNavigate();
+  const {hubSelect} = useContext(HubContext);
 
   ////////////////////////////
 
   function loadRazorpay() {
+   
 
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.onerror = () => {
-      setMessage('Razorpay SDK failed to load. Are you online?');
+      setAlert('Razorpay SDK failed to load. Are you online?');
     };
     script.onload = async () => {
       try {
@@ -27,23 +32,27 @@ function PaymentsCards(props) {
         const { amount, id: order_id, currency } = result.data;
         const {
           data: { key: razorpayKey },
-        } = await axios.get(window.serverurl +'/payments/getRazorpayKey');
+        } = await axios.post(window.serverurl +'/payments/getRazorpayKey');
 
         const options = {
           key: razorpayKey,
           amount: props.data.amount,
           currency: currency,
-          name: 'example name',
-          description: 'example transaction',
+          name: 'Eternity VPN',
+          description: 'eternity vpn plan purchase powered by razopay',
           order_id: order_id,
           handler: async function (response) {
             const result = await axios.post(window.serverurl +'/payments/payOrder', {
               amount: amount,
+              planId:props.data.planId,
+              hub:hubSelect,
               razorpayPaymentId: response.razorpay_payment_id,
               razorpayOrderId: response.razorpay_order_id,
               razorpaySignature: response.razorpay_signature,
             });
-            setMessage(result.data.msg);
+            setAlert(result.data.msg);
+            navigate("/dashboard/user");
+
             // fetchOrders();
           },
           prefill: {
@@ -63,7 +72,7 @@ function PaymentsCards(props) {
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
       } catch (err) {
-        setMessage(err);
+        setAlert(err);
         setLoading(false);
       }
     };

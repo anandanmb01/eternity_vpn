@@ -58,7 +58,7 @@ function App() {
         <Route exact path="/" element={<Home/>} />
         <Route path="/login" element={user?<Home/>:<Login />} />
         <Route path="/dashboard" element={user?<Dashboard/>:<Login />}/>
-        <Route path="/dashboard/user" element={user?<UserDashboard/>:<Login />} />
+        <Route path="/dashboard/:hub" element={user?<UserDashboard/>:<Login />} />
         <Route path="/*" element={<h1>PAGE NOT FOUND</h1>} />
       </Routes>
       </div>

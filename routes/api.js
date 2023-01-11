@@ -1,6 +1,10 @@
 const router_api = require("express").Router();
-const passport = require("passport");
-const freeTireDays=3;
+const {User:mongooseUser} = require("../mongoose-config");
+const trialdays=5;
+const mongoose=require("mongoose");
+const { User,Order }=require( "../mongoose-config");
+
+
 
 const {
   vpncmd,
@@ -21,6 +25,36 @@ router_api.post("/vpn/test",(req,res)=>{
   console.log(req.user);
   res.json({res:"ok"});
 });
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+async function setVpnExp(hub_id,username,days){
+  const today = new Date();
+  let date_ob =  new Date();
+  date_ob.setDate(today.getDate() + Number(days));
+  return(await eval(hub_id).executeCommand(`UserExpiresSet ${username} /EXPIRES:"${String(date_ob.getFullYear()).padStart(4, '0')}/${String(date_ob.getMonth()+1).padStart(2, '0')}/${String(date_ob.getDate()).padStart(2, '0')} ${String(date_ob.getHours()).padStart(2, '0')}:${String(date_ob.getMinutes()).padStart(2, '0')}:${String(date_ob.getSeconds()).padStart(2, '0')}"`))
+}
+
+router_api.post("/vpn", (req, res) => {
+  const hub_id = req.body.hubid;
+  const username = req.body.username;
+  const days = Number(req.body.days);
+  console.log( "exec set exp fun");
+
+  setVpnExp(hub_id, username, days)
+    .then((x) => {
+      console.log(x);
+      res.json({ res: "ok" });
+    })
+
+    .catch((e) => {
+      console.log(e);
+      res.json({ res: "error" });
+    });
+});
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 //------------------ routes---------------------------//
 router_api.post("/vpn/connect", (req, res) => {
@@ -44,20 +78,38 @@ router_api.post("/vpn/connect", (req, res) => {
 });
 
 router_api.post("/vpn/createuser",async (req,res,next)=>{
-    const today = new Date();
-    let date_ob =  new Date();
-    date_ob.setDate(today.getDate() + freeTireDays);
+
     try{
-    await eval(req.body.hub_id).executeCommand(`UserCreate ${req.user.username} /GROUP:none /REALNAME:${req.user.name} /NOTE:${req.user.id}`).then(()=>{console.log("complete");})
-    await eval(req.body.hub_id).executeCommand(`UserPasswordSet ${req.user.username} /PASSWORD:${req.body.password}`).then(()=>{console.log("complete");})
-    await eval(req.body.hub_id).executeCommand(`UserExpiresSet ${req.user.username} /EXPIRES:"${String(date_ob.getFullYear()).padStart(4, '0')}/${String(date_ob.getMonth()).padStart(2, '0')}/${String(date_ob.getDate()).padStart(2, '0')} ${String(date_ob.getHours()).padStart(2, '0')}:${String(date_ob.getMinutes()).padStart(2, '0')}:${String(date_ob.getSeconds()).padStart(2, '0')}"`).then(()=>{console.log("complete");})
-    
+    await eval(req.body.hub_id).executeCommand(`UserCreate ${req.user.username} /GROUP:none /REALNAME:${req.user.name} /NOTE:${req.user.id}`)
+    await eval(req.body.hub_id).executeCommand(`UserPasswordSet ${req.user.username} /PASSWORD:${req.body.password}`)
+    const today = new Date();
 
-    // await eval(req.body.hub_id).executeCommand(`UserGet anandanmb`).then(()=>{console.log("complete");})
-    // await eval(req.body.hub_id).executeCommand(`UserGet anandanmb`).then(()=>{console.log("complete");})
-    // await eval(req.body.hub_id).executeCommand(`UserGet anandanmb`).then(()=>{console.log("complete");})
-
-
+    console.log(`created  on ${req.user.createdOn}`);
+      if(req.user.createdOn==null){
+        (async ()=>{ 
+          // console.log("entered async fun");
+        
+        let date_ob =  new Date();
+        date_ob.setDate(today.getDate() + trialdays);
+          await User.updateOne({id:req.user.id}, { $set: { createdOn: today,expiry:date_ob} });
+          // console.log("db update req send");
+          await Order.create({date:today,planId:-1});
+          // console.log("db payment req send");
+          req.user.createdOn=today;
+          req.user.expiry=date_ob;
+          await setVpnExp(req.body.hub_id,req.user.username,trialdays);
+          // console.log("send vpn exp date to vpn server");
+        })();
+      }else{
+        // console.log("entered async else");
+        const diff =(new Date(req.user.expiry)).getDate()- today.getDate();
+        // console.log(`diff = ${diff}`);
+        (async ()=>{
+          console.log(`diff = ${diff}`);
+          await setVpnExp(req.body.hub_id,req.user.username,diff);
+          // console.log("vpn exp update to vpn server");
+        })();
+      }
 
     res.json({error:false});
     
@@ -99,7 +151,7 @@ router_api.post("/vpn/changeusrpsk",(req,res)=>{
 });
 
 //------------------------------export---------------//
-module.exports = router_api;
+module.exports = {router_api,setVpnExp};
 /////////////////////////////////////////////////////////////
 
 // commands for node test

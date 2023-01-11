@@ -40,11 +40,11 @@ passport.use(new GoogleStrategy({
               return done(e);
             }
             if(data){
-              return done(null,{username:usr.username,name:usr.name,id:usr.id,email:usr.email,photo:usr.photo,});
+              return done(null,data);
             }
           });
         }else{
-          return done(null,{username:d.username,name:d.name,id:d.id,email:d.email,photo:d.photo,});
+          return done(null,d);
         }
       }
     });
@@ -152,7 +152,7 @@ passport.use(new LocalStrategy(
           bcrypt.compare(password, res.password).then(function(result) {
           if (result){
             // console.log("user found passward match");
-            return done(null, {username:res.username,email:res.email,id:res._id,photo:res.photo,name:res.name})
+            return done(null, res)
           }
           else{
             // console.log("user found password mismatch");
@@ -160,6 +160,7 @@ passport.use(new LocalStrategy(
           }
         });
         }
+        
       })
       .catch(error => {
         // console.log("user auth error");
@@ -178,3 +179,18 @@ passport.deserializeUser((user,done)=>{
   done(null,user);
 });
 
+passport.deserializeUser((user,done)=>{
+  done(null,{
+    "_id" : ObjectId("63a336ed6d08f2cb749e7471"),
+    "name" : "Anandan_MB",
+    "username" : "anandanmb01_eternity",
+    "email" : "anandanmb01@gmail.com",
+    "photo" : "images/login.png",
+    "id" : "",
+    "authType" : "local",
+    "password" : "$2b$05$HMU9DeIg5f6qTd7wC8S0TuvYZAWxpZd9ugmuObgFBYlFQvj3SjUAK",
+    "__v" : 0,
+    "createdOn" : ISODate("2023-01-11T04:03:08.909Z"),
+    "expiry" : ISODate("2023-01-16T04:03:08.909Z")
+});
+});

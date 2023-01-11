@@ -8,6 +8,9 @@ const mongoose = require('mongoose');
     authType:String,
     password:String,
     authType:String,
+    expiry:Object,
+    accounts:Object,
+    createdOn:Object,
 
 });
 
@@ -25,6 +28,8 @@ const EmailVerify = mongoose.model('EmailVerify', emailVerifySchema);
 
 const OrderSchema = mongoose.Schema({
   isPaid: Boolean,
+  amount:Number,
+  date:Object,
   userId:String,
   planId:Number,
   razorpay: {

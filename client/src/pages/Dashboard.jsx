@@ -6,11 +6,10 @@ import Card from "../components/card";
 // import axios from "axios";
 import {useNavigate } from "react-router-dom";
 import HubContext from "../context/HubContext";
-import UsrContext from "../context/UsrContext";
+// import UsrContext from "../context/UsrContext";
 
 function Dashboard(props) {
 
-  const { user } = useContext(UsrContext);
   const navigate = useNavigate();
   const {
     hubSelection,
@@ -22,7 +21,8 @@ function Dashboard(props) {
   } = useContext(HubContext);
 
   function connect_to_hub() {
-    navigate("/dashboard/user");
+    navigate(`/dashboard/${hubSelect}`);
+
   }
 
   function Hub(props) {

@@ -8,6 +8,7 @@ import HubContext from "../../context/HubContext";
 import AlertContext from "../../context/AlertContext";
 import { Button } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
+import VpnUsrContext from "../../context/VpnUsrContext";
 
 function CreateUser(){
     const {setAlert} = useContext(AlertContext);
@@ -15,20 +16,21 @@ function CreateUser(){
     const {hubSelect,} = useContext(HubContext);
     const [pass,setPass]=useState("");
     const navigate = useNavigate();
+    const { vpnUsr, setVpnUsr } = useContext(VpnUsrContext);
 
      function userCreate(event) {
        event.preventDefault();
-         axios({
-          method: 'post',
-          url: window.serverurl + "/api/vpn/createuser",
-          timeout: 8000,
-          data: {
-            hub_id: hubSelect,
-            password: pass
-          }
-        })
+       axios({
+         method: "post",
+         url: window.serverurl + "/api/vpn/createuser",
+         timeout: 8000,
+         data: {
+           hub_id: hubSelect,
+           password: pass,
+         },
+       })
          .then((res) => {
-          //  console.log(res.data);
+           //  console.log(res.data);
            if (res.data.redirect) {
              navigate("/login");
            } else {
@@ -37,13 +39,15 @@ function CreateUser(){
                navigate("/dashboard");
              } else {
                setAlert("user created");
-               navigate("/dashboard/user");
+                window.location.reload(true);
+               //  navigate("/dashboard/user");
+
              }
            }
          })
-         .catch((e)=>{
-          console.log(e);
-         })
+         .catch((e) => {
+           console.log(e);
+         });
      }
     
     return (

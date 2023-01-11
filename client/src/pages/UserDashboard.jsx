@@ -13,20 +13,25 @@ import { useEffect } from "react";
 import PayToast from "../components/dash_comp/PayToast"
 import CreateUser from "../components/dash_comp/CreateUser";
 import AlertContext from "../context/AlertContext";
+import { Button } from "react-bootstrap";
+import { useParams } from 'react-router-dom';
 
 
 function UserDashboard() {
-
+  const { hub } = useParams()
   const {setAlert} = useContext(AlertContext);
   const { user } = useContext(UsrContext);
-  const {hubSelect,} = useContext(HubContext);
+  const {hubSelect} = useContext(HubContext);
+  let hubSelect_=null;
 
+  if (hubSelect==null){
+    hubSelect_=hub;
+  }else{
+    hubSelect_=hubSelect;
+  }
+  
   const navigate = useNavigate();
 
-
-
-  let message = null;
-  //create form control
   const [userForm, setUserForm] = useState(false);
   const [changePsk,setChangePsk] = useState(false);
   const [creditDisp,setCreditDisp] = useState(true);
@@ -36,27 +41,26 @@ function UserDashboard() {
   const { vpnUsr, setVpnUsr } = useContext(VpnUsrContext);
 
   useEffect(() => {
+    console.log(hubSelect);
     axios
       .post(window.serverurl + "/api/vpn/connect", {
-        hub_id: hubSelect,
+        hub_id: hubSelect_,
       })
       .then((res) => {
         if (res.data.redirect) {
           navigate("/");
         } else {
           if (res.data.error) {
-            // eslint-disable-next-line
-            message = "user not available";
+            setAlert("user not available");
             setVpnUsr({});
           } else {
-            message = null;
             setVpnUsr(res.data);
           }
         }
       }).catch((e)=>{
         console.log(e);
       });
-  }, []);
+  },[]);
 
     // ------------------Create User-------------------//
 
@@ -64,7 +68,7 @@ function UserDashboard() {
   function deleteusr(event){
     event.preventDefault();
           axios.post(window.serverurl+"/api/vpn/deleteuser",
-          {hub_id: hubSelect})
+          {hub_id: hubSelect_})
           .then((res)=>{
               if(res.data.error){
                 setAlert('user not deleted [ error occured ]')
@@ -82,7 +86,7 @@ function UserDashboard() {
   function userPassUpdate(event){
       event.preventDefault();
       axios.post(window.serverurl+"/api/vpn/changeusrpsk",
-      {hub_id: hubSelect,
+      {hub_id: hubSelect_,
         password:pass_})
       .then((res)=>{
           if(res.data.error){
@@ -132,8 +136,7 @@ function UserDashboard() {
   
   function UsrCreateForm(){
       return( <div className="user-dashboard-message">
-      {message&&<p>{`${message}`}</p>}   
-      <button type="button" className="btn btn-outline-secondary" onClick={()=>{setUserForm(!userForm)}}>Create user</button>
+      <Button size="sm" variant="outline-secondary" shadow="sm" onClick={()=>{setUserForm(!userForm)}}>create user</Button>
       {userForm&&<CreateUser/>}
   </div>);
   }
@@ -145,7 +148,7 @@ function UserDashboard() {
         <h3>{`Welcome ${user.name}`}</h3>
       </div>
       <div>
-        <p>{`You are now connected to ${hubSelect}`}</p>
+        <p>{`You are now connected to ${hubSelect_}`}</p>
       </div>
       {Object.keys(vpnUsr).length === 0 ? (
         <>
@@ -154,7 +157,7 @@ function UserDashboard() {
         </>
       ) : (
         <>
-          <VpnUsrDisp guideVar={setCreditDisp} />
+          <VpnUsrDisp hub={hubSelect_} guideVar={setCreditDisp} />
           <UserMod />
           {creditDisp ? <PayToast /> : <></>}
         </>

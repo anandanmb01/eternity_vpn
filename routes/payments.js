@@ -1,7 +1,8 @@
 const Razorpay = require('razorpay');
 const {paymentPlans} =require("../data/paymentPlans.js");
 const router = require("express").Router();
-const {Order} = require("../mongoose-config");
+const {Order,User} = require("../mongoose-config");
+const {setVpnExp} =require("../routes/api")
   
 
 //-----------------------------Plans--------------------------------//
@@ -38,15 +39,27 @@ router.post('/payOrder', async (req, res) => {
     const { planId, razorpayPaymentId, razorpayOrderId, razorpaySignature } =
       req.body;
     const newOrder = Order({
-      isPaid: true,
-      amount: parseInt(paymentPlans[planId].amount),
+    // console.log(planId);
+    isPaid: true,
+      date:new Date(),
+      planId:planId,
       razorpay: {
         orderId: razorpayOrderId,
         paymentId: razorpayPaymentId,
         signature: razorpaySignature,
       },
     });
+
     await newOrder.save();
+    
+    const cexp=new Date(req.user.expiry)
+    let lexp =  new Date();
+    lexp.setDate(lexp.getDate() + paymentPlans[planId].noOfDays);
+    req.user.expiry=lexp;
+    await User.updateOne({id:req.user.id}, { $set: {expiry:lexp} });
+    const diff =lexp.getDate()- (new Date()).getDate();
+    await setVpnExp(req.body.hub,req.user.username,diff)
+
     res.send({
       msg: 'Payment was successfull',
     });
@@ -60,5 +73,11 @@ router.post('/listOrders', async (req, res) => {
   const orders = await Order.find();
   res.send(orders);
 });
+
+
+
+
+
+
 
 module.exports = router;

@@ -67,7 +67,7 @@ const httpsServer = https.createServer(httpsOptions, app);
 
 
 const authRouter = require("./routes/auth");
-const apiRouter = require("./routes/api");
+const {router_api:apiRouter} = require("./routes/api");
 const paymentRouter = require("./routes/payments");
 
 
