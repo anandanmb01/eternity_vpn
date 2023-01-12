@@ -105,7 +105,7 @@ router_api.post("/vpn/createuser",async (req,res,next)=>{
         const diff =(new Date(req.user.expiry)).getDate()- today.getDate();
         // console.log(`diff = ${diff}`);
         (async ()=>{
-          console.log(`diff = ${diff}`);
+          // console.log(`diff = ${diff}`);
           await setVpnExp(req.body.hub_id,req.user.username,diff);
           // console.log("vpn exp update to vpn server");
         })();

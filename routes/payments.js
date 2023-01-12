@@ -54,10 +54,12 @@ router.post('/payOrder', async (req, res) => {
     
     const cexp=new Date(req.user.expiry)
     let lexp =  new Date();
-    lexp.setDate(lexp.getDate() + paymentPlans[planId].noOfDays);
+    lexp.setDate(cexp.getDate() + paymentPlans[planId].noOfDays);
     req.user.expiry=lexp;
     await User.updateOne({id:req.user.id}, { $set: {expiry:lexp} });
     const diff =lexp.getDate()- (new Date()).getDate();
+        console.log(`diff = ${diff}`);
+
     await setVpnExp(req.body.hub,req.user.username,diff)
 
     res.send({
