@@ -38,11 +38,11 @@ router_api.post("/vpn", (req, res) => {
   const hub_id = req.body.hubid;
   const username = req.body.username;
   const days = Number(req.body.days);
-  console.log( "exec set exp fun");
+  // console.log( "exec set exp fun");
 
   setVpnExp(hub_id, username, days)
     .then((x) => {
-      console.log(x);
+      // console.log(x);
       res.json({ res: "ok" });
     })
 
@@ -84,7 +84,7 @@ router_api.post("/vpn/createuser",async (req,res,next)=>{
     await eval(req.body.hub_id).executeCommand(`UserPasswordSet ${req.user.username} /PASSWORD:${req.body.password}`)
     const today=moment()
 
-    console.log(`created  on ${req.user.createdOn}`);
+    // console.log(`created  on ${req.user.createdOn}`);
       if(req.user.createdOn==null){
         (async ()=>{ 
         
@@ -97,7 +97,7 @@ router_api.post("/vpn/createuser",async (req,res,next)=>{
           await setVpnExp(req.body.hub_id,req.user.username,trialdays);
         })();
       }else{
-        const diff = today.diff(today, "day");
+        const diff = moment(req.user.createdOn).diff(today, "day");
         (async ()=>{
           await setVpnExp(req.body.hub_id,req.user.username,diff);
         })();

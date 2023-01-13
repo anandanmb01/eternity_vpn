@@ -14,7 +14,8 @@ import PayToast from "../components/dash_comp/PayToast"
 import CreateUser from "../components/dash_comp/CreateUser";
 import AlertContext from "../context/AlertContext";
 import { Button } from "react-bootstrap";
-import {useParams} from "react-router-dom"
+import {useParams} from "react-router-dom";
+import moment from "moment";
 
 
 function UserDashboard() {
@@ -60,6 +61,33 @@ function UserDashboard() {
   },[]);
 
     // ------------------Create User-------------------//
+
+
+    function Paytoast() {
+      if (user.expiry == null) {
+        return (
+          <PayToast message="Activate your free trial to start using eternity vpn" />
+        );
+      } else {
+        const diff = moment(user.expiry).diff(moment(), "days");
+
+        if(diff<1){
+          return (
+            <PayToast message="Account has been expired, purchase plan to start using eternity vpn" />
+          );
+        }else if(diff < 6){
+          return (
+            <PayToast message={`Your account is about to expire and is valid only for ${diff} days purchase plan for having premium experience`} />
+          )
+        }else{
+            return <div></div>;
+
+        }
+
+      }
+    }
+
+
 
 
   function deleteusr(event){
@@ -151,17 +179,18 @@ function UserDashboard() {
       {Object.keys(vpnUsr).length === 0 ? (
         <>
           <UsrCreateForm />
-          <PayToast />
+          <Paytoast />
         </>
       ) : (
         <>
           <VpnUsrDisp hub={hubSelect} guideVar={setCreditDisp} />
           <UserMod />
-          {creditDisp ? <PayToast /> : <></>}
+          {creditDisp ? <Paytoast /> : <></>}
         </>
       )}
       {changePsk && <ChangeUsrPsk />}
     </div>
   );
 }
+
 export default UserDashboard;

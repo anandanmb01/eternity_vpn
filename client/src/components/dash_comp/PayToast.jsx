@@ -5,7 +5,7 @@ import ToastContainer from 'react-bootstrap/ToastContainer';
 import { Button } from 'react-bootstrap';
 import PlaymentPlans from './PlaymentPlans';
 
-function PayToast() {
+function PayToast(props) {
   const [paymentPlan, setPaymentPlan] = React.useState(false);
   if(!paymentPlan){
   return (
@@ -23,7 +23,7 @@ function PayToast() {
             </Toast.Header>
             <Toast.Body>    
               <marquee width="95%" direction="left" height="30px">
-              You are using the free tier version of eternity vpn valid for 10days purchase paid plans for premium experience
+              {props.message}
               </marquee>
               <div className="text-end">
               <Button size="sm" variant="light" onClick={() => setPaymentPlan(true)} >buy plans</Button>

@@ -26,7 +26,7 @@ router.post('/createOrder', async (req, res) => {
       amount: parseInt(paymentPlans[req.body.planId].amount),
       currency: 'INR',
     };
-    console.log(options)
+    // console.log(options)
     const order = await instance.orders.create(options);
     if (!order) return res.status(500).send('Some error occured');
     res.send(order);
