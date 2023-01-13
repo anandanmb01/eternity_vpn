@@ -3,6 +3,7 @@ const {paymentPlans} =require("../data/paymentPlans.js");
 const router = require("express").Router();
 const {Order,User} = require("../mongoose-config");
 const {setVpnExp} =require("../routes/api")
+const moment = require("moment");
   
 
 //-----------------------------Plans--------------------------------//
@@ -53,11 +54,11 @@ router.post('/payOrder', async (req, res) => {
     await newOrder.save();
     
     const cexp=moment(req.user.expiry)
-    let lexp =  moment();
-    lexp.add(paymentPlans[planId].noOfDays+cexp.date(),'day');
+    let lexp =  cexp;
+    lexp.add(paymentPlans[planId].noOfDays,'day');
     req.user.expiry=lexp;
     await User.updateOne({id:req.user.id}, { $set: {expiry:lexp} });
-    const diff =lexp.diff(cexp,"day");
+    const diff =lexp.diff(moment(),"day");
     await setVpnExp(req.body.hub,req.user.username,diff)
 
     res.send({

@@ -14,22 +14,13 @@ import PayToast from "../components/dash_comp/PayToast"
 import CreateUser from "../components/dash_comp/CreateUser";
 import AlertContext from "../context/AlertContext";
 import { Button } from "react-bootstrap";
-import { useParams } from 'react-router-dom';
 
 
 function UserDashboard() {
-  const { hub } = useParams()
   const {setAlert} = useContext(AlertContext);
   const { user } = useContext(UsrContext);
   const {hubSelect} = useContext(HubContext);
-  let hubSelect_=null;
 
-  if (hubSelect==null){
-    hubSelect_=hub;
-  }else{
-    hubSelect_=hubSelect;
-  }
-  
   const navigate = useNavigate();
 
   const [userForm, setUserForm] = useState(false);
@@ -44,7 +35,7 @@ function UserDashboard() {
     console.log(hubSelect);
     axios
       .post(window.serverurl + "/api/vpn/connect", {
-        hub_id: hubSelect_,
+        hub_id: hubSelect,
       })
       .then((res) => {
         if (res.data.redirect) {
@@ -68,7 +59,7 @@ function UserDashboard() {
   function deleteusr(event){
     event.preventDefault();
           axios.post(window.serverurl+"/api/vpn/deleteuser",
-          {hub_id: hubSelect_})
+          {hub_id: hubSelect})
           .then((res)=>{
               if(res.data.error){
                 setAlert('user not deleted [ error occured ]')
@@ -86,7 +77,7 @@ function UserDashboard() {
   function userPassUpdate(event){
       event.preventDefault();
       axios.post(window.serverurl+"/api/vpn/changeusrpsk",
-      {hub_id: hubSelect_,
+      {hub_id: hubSelect,
         password:pass_})
       .then((res)=>{
           if(res.data.error){
@@ -95,7 +86,7 @@ function UserDashboard() {
             setAlert('user password updated');
           }
           setChangePsk(false);
-          navigate("/dashboard/user");
+          // navigate("/dashboard/user");
           
       })
 
@@ -148,7 +139,7 @@ function UserDashboard() {
         <h3>{`Welcome ${user.name}`}</h3>
       </div>
       <div>
-        <p>{`You are now connected to ${hubSelect_}`}</p>
+        <p>{`You are now connected to ${hubSelect}`}</p>
       </div>
       {Object.keys(vpnUsr).length === 0 ? (
         <>
@@ -157,7 +148,7 @@ function UserDashboard() {
         </>
       ) : (
         <>
-          <VpnUsrDisp hub={hubSelect_} guideVar={setCreditDisp} />
+          <VpnUsrDisp hub={hubSelect} guideVar={setCreditDisp} />
           <UserMod />
           {creditDisp ? <PayToast /> : <></>}
         </>

@@ -6,7 +6,7 @@ const HubContext = createContext({});
 export function HubProvider({children}) {
   const [hubSelection, setHubSelection] = useState(null);
   const [locSelection, setLocSelection] = useState(null);
-  const [hubSelect, setHubSelect] = useState(null);
+  const [hubSelect, setHubSelect] = useState("India__eternity_hub");
   console.log(hubSelect);
 
   return (<HubContext.Provider value={{hubSelection,setHubSelection,locSelection,setLocSelection,hubSelect,setHubSelect}}>{children}</HubContext.Provider>);

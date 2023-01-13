@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import React, { useState ,useContext} from 'react';
 import AlertContext from '../../context/AlertContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import HubContext from '../../context/HubContext';
 
 
@@ -51,7 +51,6 @@ function PaymentsCards(props) {
               razorpaySignature: response.razorpay_signature,
             });
             setAlert(result.data.msg);
-            navigate("/dashboard/user");
 
             // fetchOrders();
           },
