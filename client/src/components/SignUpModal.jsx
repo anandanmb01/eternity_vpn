@@ -76,7 +76,7 @@ function SignUpModal(props) {
     const [counter, setCounter] = React.useState(timermax);  
     
     function handleEmailVerify() {
-      console.log("send");
+      // console.log("send");
       if(signUp.email===""){
         setSignUpMessage("Enter email address");
       }else{
@@ -95,7 +95,7 @@ function SignUpModal(props) {
     }
   
     function handleOtpClick() {
-      console.log(otp);
+      // console.log(otp);
       if(otp===""){
         setTimer(true);
         setSignUpMessage("Enter otp");
@@ -107,7 +107,7 @@ function SignUpModal(props) {
           otp: otp,
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setCounterDisp(true);
           if (res.data.status === "ok") {
             setEmailTrack(signUp.email);

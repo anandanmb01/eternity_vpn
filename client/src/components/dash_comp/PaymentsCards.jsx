@@ -51,8 +51,10 @@ function PaymentsCards(props) {
               razorpaySignature: response.razorpay_signature,
             });
             setAlert(result.data.msg);
+            props.setPaymentPlan(false);
+            window.location.reload(false);
 
-            // fetchOrders();
+
           },
           prefill: {
             name: 'example name',
@@ -81,7 +83,7 @@ function PaymentsCards(props) {
   ///////////////////////////
 
 
-  console.log(props.data)
+  // console.log(props.data)
   return (
     <Card className="my-4 mx-3 " style={{ width: '15rem' }}>
       {/* <Card.Img className="m-1 mt-3 w-auto h-auto" variant="top" src={props.data.photoUrl} /> */}

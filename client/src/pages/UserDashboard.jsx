@@ -14,6 +14,7 @@ import PayToast from "../components/dash_comp/PayToast"
 import CreateUser from "../components/dash_comp/CreateUser";
 import AlertContext from "../context/AlertContext";
 import { Button } from "react-bootstrap";
+import {useParams} from "react-router-dom"
 
 
 function UserDashboard() {
@@ -27,12 +28,17 @@ function UserDashboard() {
   const [changePsk,setChangePsk] = useState(false);
   const [creditDisp,setCreditDisp] = useState(true);
 
+  let { id } = useParams();
   // context of hub data and user
   
   const { vpnUsr, setVpnUsr } = useContext(VpnUsrContext);
 
+  if (id !== user.id){
+    navigate("/dashbaord");
+  }
+
   useEffect(() => {
-    console.log(hubSelect);
+    // console.log(hubSelect);
     axios
       .post(window.serverurl + "/api/vpn/connect", {
         hub_id: hubSelect,
@@ -67,6 +73,7 @@ function UserDashboard() {
                 setAlert('user deleted')
               }
               navigate("/dashboard");
+              setVpnUsr({});
               
           })
   }
@@ -86,7 +93,7 @@ function UserDashboard() {
             setAlert('user password updated');
           }
           setChangePsk(false);
-          // navigate("/dashboard/user");
+          // navigate("/dashboard");
           
       })
 

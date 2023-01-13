@@ -1,15 +1,29 @@
 import React from "react";
 import { createContext, useState } from "react";
+import { useCookies } from "react-cookie";
 
 const HubContext = createContext({});
 
 export function HubProvider({children}) {
-  const [hubSelection, setHubSelection] = useState(null);
-  const [locSelection, setLocSelection] = useState(null);
-  const [hubSelect, setHubSelect] = useState("India__eternity_hub");
-  console.log(hubSelect);
+  const [cookies, setCookie] = useCookies([]);
 
-  return (<HubContext.Provider value={{hubSelection,setHubSelection,locSelection,setLocSelection,hubSelect,setHubSelect}}>{children}</HubContext.Provider>);
+  // console.log(cookies.sitedata);
+
+    if (Object.keys(cookies).length === 0) {
+
+      setCookie("sitedata", {
+        'hubSelection': null,
+        'locSelection': null,
+        'hubSelect': null,
+      });
+      }
+
+  const [hubSelection, setHubSelection] = useState(cookies.sitedata.hubSelection);
+  const [locSelection, setLocSelection] = useState(cookies.sitedata.locSelection);
+  const [hubSelect, setHubSelect] = useState(cookies.sitedata.hubSelect);
+  
+
+  return (<HubContext.Provider value={{hubSelection,setHubSelection,locSelection,setLocSelection,hubSelect,setHubSelect,setCookie}}>{children}</HubContext.Provider>);
 }
 
 export default HubContext;

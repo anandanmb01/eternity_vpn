@@ -33,7 +33,7 @@ function PlaymentPlans(props){
       <Modal.Body>
       <div className="container horizontal-scrollable">
                 <div className="row">
-                {paymentsPlans.map((x)=>{return(<PaymentsCards data={x}/>)})}
+                {paymentsPlans.map((x)=>{return(<PaymentsCards data={x} setPaymentPlan={props.setPaymentPlan}/>)})}
                 </div>
         </div>
       </Modal.Body>

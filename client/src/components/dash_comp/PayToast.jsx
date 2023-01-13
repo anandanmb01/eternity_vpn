@@ -41,6 +41,8 @@ else{
   <PlaymentPlans
                 show={paymentPlan}
                 onHide={() => setPaymentPlan(false)}
+                setPaymentPlan={setPaymentPlan}
+
               />);
 }
 }
