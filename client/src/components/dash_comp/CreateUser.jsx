@@ -35,7 +35,6 @@ function CreateUser(){
            } else {
              if (res.data.error) {
                setAlert("user not created");
-               navigate("/dashboard");
              } else {
                setAlert("user created");
                 window.location.reload(false);

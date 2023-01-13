@@ -97,6 +97,7 @@ function UserDashboard() {
           .then((res)=>{
               if(res.data.error){
                 setAlert('user not deleted [ error occured ]')
+                
               }else{
                 setAlert('user deleted')
               }
