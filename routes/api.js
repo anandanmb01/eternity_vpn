@@ -3,6 +3,7 @@ const {User:mongooseUser} = require("../mongoose-config");
 const trialdays=5;
 const mongoose=require("mongoose");
 const { User,Order }=require( "../mongoose-config");
+const moment = require("moment");
 
 
 
@@ -28,10 +29,9 @@ router_api.post("/vpn/test",(req,res)=>{
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async function setVpnExp(hub_id,username,days){
-  const today = new Date();
-  let date_ob =  new Date();
-  date_ob.setDate(today.getDate() + Number(days));
-  return(await eval(hub_id).executeCommand(`UserExpiresSet ${username} /EXPIRES:"${String(date_ob.getFullYear()).padStart(4, '0')}/${String(date_ob.getMonth()+1).padStart(2, '0')}/${String(date_ob.getDate()).padStart(2, '0')} ${String(date_ob.getHours()).padStart(2, '0')}:${String(date_ob.getMinutes()).padStart(2, '0')}:${String(date_ob.getSeconds()).padStart(2, '0')}"`))
+  const day = moment();
+  day.add(Number(days), 'day')
+  return(await eval(hub_id).executeCommand(`UserExpiresSet ${username} /EXPIRES:"${String(day.year()).padStart(4, '0')}/${String(day.month()+1).padStart(2, '0')}/${String(day.date()).padStart(2, '0')} ${String(day.hour()).padStart(2, '0')}:${String(day.minute()).padStart(2, '0')}:${String(day.second()).padStart(2, '0')}"`))
 }
 
 router_api.post("/vpn", (req, res) => {
@@ -82,32 +82,24 @@ router_api.post("/vpn/createuser",async (req,res,next)=>{
     try{
     await eval(req.body.hub_id).executeCommand(`UserCreate ${req.user.username} /GROUP:none /REALNAME:${req.user.name} /NOTE:${req.user.id}`)
     await eval(req.body.hub_id).executeCommand(`UserPasswordSet ${req.user.username} /PASSWORD:${req.body.password}`)
-    const today = new Date();
+    const today=moment()
 
     console.log(`created  on ${req.user.createdOn}`);
       if(req.user.createdOn==null){
         (async ()=>{ 
-          // console.log("entered async fun");
         
-        let date_ob =  new Date();
-        date_ob.setDate(today.getDate() + trialdays);
+        const date_ob=moment()
+        date_ob.add(trialdays,"day")
           await User.updateOne({id:req.user.id}, { $set: { createdOn: today,expiry:date_ob} });
-          // console.log("db update req send");
           await Order.create({date:today,planId:-1});
-          // console.log("db payment req send");
           req.user.createdOn=today;
           req.user.expiry=date_ob;
           await setVpnExp(req.body.hub_id,req.user.username,trialdays);
-          // console.log("send vpn exp date to vpn server");
         })();
       }else{
-        // console.log("entered async else");
-        const diff =(new Date(req.user.expiry)).getDate()- today.getDate();
-        // console.log(`diff = ${diff}`);
+        const diff = today.diff(today, "day");
         (async ()=>{
-          // console.log(`diff = ${diff}`);
           await setVpnExp(req.body.hub_id,req.user.username,diff);
-          // console.log("vpn exp update to vpn server");
         })();
       }
 

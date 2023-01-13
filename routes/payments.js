@@ -41,7 +41,7 @@ router.post('/payOrder', async (req, res) => {
     const newOrder = Order({
     // console.log(planId);
     isPaid: true,
-      date:new Date(),
+      date:moment(),
       planId:planId,
       razorpay: {
         orderId: razorpayOrderId,
@@ -52,14 +52,12 @@ router.post('/payOrder', async (req, res) => {
 
     await newOrder.save();
     
-    const cexp=new Date(req.user.expiry)
-    let lexp =  new Date();
-    lexp.setDate(cexp.getDate() + paymentPlans[planId].noOfDays);
+    const cexp=moment(req.user.expiry)
+    let lexp =  moment();
+    lexp.add(paymentPlans[planId].noOfDays+cexp.date(),'day');
     req.user.expiry=lexp;
     await User.updateOne({id:req.user.id}, { $set: {expiry:lexp} });
-    const diff =lexp.getDate()- (new Date()).getDate();
-        console.log(`diff = ${diff}`);
-
+    const diff =lexp.diff(cexp,"day");
     await setVpnExp(req.body.hub,req.user.username,diff)
 
     res.send({
