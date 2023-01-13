@@ -66,18 +66,18 @@ function UserDashboard() {
     function Paytoast() {
       if (user.expiry == null) {
         return (
-          <PayToast message="Activate your free trial to start using eternity vpn" />
+          <PayToast message="Activate your free trial to start using eternity vpn" status="free trail available"/>
         );
       } else {
         const diff = moment(user.expiry).diff(moment(), "days");
 
         if(diff<1){
           return (
-            <PayToast message="Account has been expired, purchase plan to start using eternity vpn" />
+            <PayToast message="Account has been expired, purchase plan to start using eternity vpn" status="account expired"/>
           );
         }else if(diff < 6){
           return (
-            <PayToast message={`Your account is about to expire and is valid only for ${diff} days purchase plan for having premium experience`} />
+            <PayToast message={`Your account is about to expire and is valid only for ${diff} days purchase plan for having premium experience` } status="topup alert"/>
           )
         }else{
             return <div></div>;

@@ -23,7 +23,6 @@ function CreateUser(){
        axios({
          method: "post",
          url: window.serverurl + "/api/vpn/createuser",
-         timeout: 8000,
          data: {
            hub_id: hubSelect,
            password: pass,
@@ -39,7 +38,7 @@ function CreateUser(){
                navigate("/dashboard");
              } else {
                setAlert("user created");
-                window.location.reload(true);
+                window.location.reload(false);
                //  navigate("/dashboard/user");
 
              }

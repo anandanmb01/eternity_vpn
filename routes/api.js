@@ -97,7 +97,7 @@ router_api.post("/vpn/createuser",async (req,res,next)=>{
           await setVpnExp(req.body.hub_id,req.user.username,trialdays);
         })();
       }else{
-        const diff = moment(req.user.createdOn).diff(today, "day");
+        const diff = moment(req.user.expiry).diff(today, "day");
         (async ()=>{
           await setVpnExp(req.body.hub_id,req.user.username,diff);
         })();

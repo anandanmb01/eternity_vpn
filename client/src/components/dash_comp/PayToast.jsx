@@ -19,7 +19,7 @@ function PayToast(props) {
                 alt=""
               />
               <strong className="me-auto">Credit status</strong>
-              <small>Free tier</small>
+              <small>{props.status}</small>
             </Toast.Header>
             <Toast.Body>    
               <marquee width="95%" direction="left" height="30px">
