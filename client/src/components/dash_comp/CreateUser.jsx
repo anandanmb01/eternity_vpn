@@ -9,6 +9,7 @@ import AlertContext from "../../context/AlertContext";
 import { Button } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import VpnUsrContext from "../../context/VpnUsrContext";
+import Spinner from 'react-bootstrap/Spinner';
 
 function CreateUser(){
     const {setAlert} = useContext(AlertContext);
@@ -17,8 +18,11 @@ function CreateUser(){
     const [pass,setPass]=useState("");
     const navigate = useNavigate();
     const { vpnUsr, setVpnUsr } = useContext(VpnUsrContext);
+        const [loading,setLoadig]=useState(false);
+
 
      function userCreate(event) {
+      setLoadig(true);
        event.preventDefault();
        axios({
          method: "post",
@@ -45,7 +49,10 @@ function CreateUser(){
          })
          .catch((e) => {
            console.log(e);
-         });
+         })
+         .finally(()=>{
+          setLoadig(false);
+         })
      }
     
     return (
@@ -66,7 +73,7 @@ function CreateUser(){
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
             </Form.Group>
             <Button variant="outline-secondary" size="sm" onClick={userCreate}>
-              create
+              {loading?<><Spinner as="span"animation="grow"size="sm"role="status"aria-hidden="true"/>&nbsp;Loading...&nbsp;</>:`create`}
             </Button>
           </Form>
         </div>

@@ -16,6 +16,10 @@ import AlertContext from "../context/AlertContext";
 import { Button } from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import moment from "moment";
+import Modal from 'react-bootstrap/Modal';
+import Spinner from 'react-bootstrap/Spinner';
+import Loading from "../components/Loading";
+
 
 
 function UserDashboard() {
@@ -28,6 +32,10 @@ function UserDashboard() {
   const [userForm, setUserForm] = useState(false);
   const [changePsk,setChangePsk] = useState(false);
   const [creditDisp,setCreditDisp] = useState(true);
+  const [loading,setLoadig]=useState(false);
+  const [showDalet, setShowDalert] = useState(false);
+  const handleClose = () => setShowDalert(false);
+  const [loadingMaster,setLoadingMaster]=useState(true);
 
   let { id } = useParams();
   // context of hub data and user
@@ -57,7 +65,10 @@ function UserDashboard() {
         }
       }).catch((e)=>{
         console.log(e);
-      });
+      })
+      .finally(()=>{
+        setLoadingMaster(false);
+      })
   },[]);
 
     // ------------------Create User-------------------//
@@ -91,7 +102,8 @@ function UserDashboard() {
 
 
   function deleteusr(event){
-    event.preventDefault();
+    // event.preventDefault();
+          setLoadig(true);
           axios.post(window.serverurl+"/api/vpn/deleteuser",
           {hub_id: hubSelect})
           .then((res)=>{
@@ -104,6 +116,12 @@ function UserDashboard() {
               navigate("/dashboard");
               setVpnUsr({});
               
+          }).catch((e)=>{console.log(e);})
+          .finally(()=>{
+            
+            handleClose();
+            setLoadig(false);
+            
           })
   }
 
@@ -111,7 +129,9 @@ function UserDashboard() {
     const [pass_,setPass_]=useState("");
 
   function userPassUpdate(event){
+    
       event.preventDefault();
+      setLoadig(true);
       axios.post(window.serverurl+"/api/vpn/changeusrpsk",
       {hub_id: hubSelect,
         password:pass_})
@@ -124,6 +144,9 @@ function UserDashboard() {
           setChangePsk(false);
           // navigate("/dashboard");
           
+      }).catch((e)=>{console.log(e);})
+      .finally(()=>{
+        setLoadig(false);
       })
 
 
@@ -144,18 +167,47 @@ function UserDashboard() {
     </div>
   </div>
   <div className="local-dignup-btn-gp">
-    <button className="btn btn-outline-primary btn-sm" onClick={userPassUpdate} >Change password</button>
+    <button className="btn btn-outline-primary btn-sm" onClick={userPassUpdate} >{loading?<><Spinner as="span"animation="grow"size="sm"role="status"aria-hidden="true"/>&nbsp;Loading...&nbsp;</>:`Change password `}</button>
     <span></span>
     </div>
       </div>
   )
 }
 
+
+
+
+
+  function DeleteModalAlert() {
+    // const handleShow = () =>{ setShowDalert(true);}
+
+    return (
+      <>
+        <Modal show={showDalet} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete vpn user</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Are you shure want to delete vpn user account</Modal.Body>
+          <Modal.Footer>
+            <Button size="sm" variant="outline-secondary" onClick={handleClose}>
+            &nbsp; no &nbsp;
+            </Button>&nbsp;&nbsp;
+            <Button size="sm" variant="outline-danger" onClick={()=>{deleteusr();}}>
+            {loading?<><Spinner as="span"animation="grow"size="sm"role="status"aria-hidden="true"/>&nbsp;Loading...&nbsp;</>:`delete `}
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
+
+
   function UserMod(){
     return(
       <div className="usr-mod-btn">
         <button type="button" className="btn btn-outline-secondary btn-sm" onClick={()=>{setChangePsk(!changePsk)}}>Change password</button>&nbsp;
-        <button type="button" className="btn btn-outline-secondary btn-sm" onClick={deleteusr}>Delete vpn user</button>
+        <button type="button" className="btn btn-outline-secondary btn-sm" onClick={()=>{setShowDalert(true)}}>Delete vpn user</button>
+        <DeleteModalAlert/>
       </div>
     )
   }
@@ -163,13 +215,18 @@ function UserDashboard() {
   
   function UsrCreateForm(){
       return( <div className="user-dashboard-message">
-      <Button size="sm" variant="outline-secondary" shadow="sm" onClick={()=>{setUserForm(!userForm)}}>create user</Button>
+      <Button size="sm" variant="outline-secondary" shadow="sm" onClick={()=>{setUserForm(!userForm);}}>
+        create user
+      </Button>
       {userForm&&<CreateUser/>}
   </div>);
   }
 
-
-  return (
+function Ret(){
+  if (loadingMaster){
+    return(<Loading/>)
+  }else{
+    return(
     <div className="user-dashboard">
       <div>
         <h3>{`Welcome ${user.name}`}</h3>
@@ -191,6 +248,11 @@ function UserDashboard() {
       )}
       {changePsk && <ChangeUsrPsk />}
     </div>
+  )
+
+}}
+  return (
+    <Ret/>
   );
 }
 
