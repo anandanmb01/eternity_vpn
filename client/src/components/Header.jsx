@@ -63,8 +63,7 @@ function Header(props) {
       <nav className="navbar ">
         <Link to="/">
           <div className="navBarLogo">
-            <img src="/images/infinity.png" alt="" width="40px" height="40px" />
-          
+            <img src="/images/infinity.png" alt="" width="40px" height="40px" />     
             <span className="navbar-brand">Eternity VPN</span>
           </div>
         </Link>
