@@ -5,41 +5,36 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../components/app.css";
 import InputGroup from "react-bootstrap/InputGroup";
+import AlertContext from "../context/AlertContext";
 
 const timermax = 300; //sec
 
-function SignUpModal(props) {
-  let otp="";
-  const [counterDisp,setCounterDisp] = useState(true);
+function ForgotPass(props) {
+  const { setAlert } = useContext(AlertContext);
+  let otp = "";
+  const [counterDisp, setCounterDisp] = useState(true);
   const [signUpEnable, setSignUpEnable] = useState(false);
   const [timer, setTimer] = useState(false);
   const [emailTrack, setEmailTrack] = useState(null);
-
   const navigate = useNavigate();
 
   const [signUp, setSignUp] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
   });
+
   // console.log(signUp)
   const [signUpMessage, setSignUpMessage] = useState("");
   const [rp, srp] = useState("");
   // console.log(rp)
 
   function handleSignUp() {
-    if (
-      signUp.firstName == "" ||
-      signUp.lastName == "" ||
-      signUp.email == "" ||
-      signUp.password == ""
-    ) {
+    if (signUp.email == "" || signUp.password == "") {
       setSignUpMessage("Please fill all fields");
     } else {
       if (!(signUp.email.includes("@") && signUp.email.includes("."))) {
@@ -50,15 +45,13 @@ function SignUpModal(props) {
         } else {
           if (signUp.password == rp) {
             axios
-              .post(window.serverurl + "/auth/register", {
-                name: signUp.firstName + "_" + signUp.lastName,
+              .post(window.serverurl + "/auth/resetpassword", {
                 email: signUp.email,
-                photo: "images/login.png",
                 password: signUp.password,
               })
               .then((resp) => {
-                alert(resp.data.result);
-                navigate(resp.data.redirect);
+                setAlert(resp.data.status);
+                // navigate("/login");
                 // console.log(resp.data)
               });
           } else {
@@ -70,55 +63,76 @@ function SignUpModal(props) {
   }
 
   function EmailBoxStatus() {
-    const [counter, setCounter] = React.useState(timermax);  
+    const [counter, setCounter] = React.useState(timermax);
+
     function handleEmailVerify() {
-      console.log("send");
-      if(signUp.email===""){
-        signUpMessage("Enter email address")
-      }else{
+      // console.log("send");
+      if (signUp.email === "") {
+        setSignUpMessage("Enter email address");
+      } else {
         axios
-        .post(window.serverurl + "/auth/verifyemail", { email: signUp.email })
-        .then((resp) => {
-          if (resp.data.status == "ok") {
-            setTimer(true);
-          } else {
-            setTimer(false);
-            setSignUpMessage("Error occured");
-          }
-        }).catch((e)=>{console.log(e);});
+          .post(window.serverurl + "/auth/checkmail", { email: signUp.email })
+          .then((d) => {
+            if (d.data.count > 0) {
+              setSignUpMessage("Email found on DB");
+              setSignUpMessage("otp hasbeen send to your mail address");
+              axios
+                .post(window.serverurl + "/auth/verifyemail", {
+                  email: signUp.email,
+                })
+                .then((resp) => {
+                  if (resp.data.status == "ok") {
+                    setTimer(true);
+                  } else {
+                    setTimer(false);
+                    setSignUpMessage("Error occured");
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            } else {
+              setSignUpMessage("please signup");
+            }
+          })
+          .catch((e) => {
+            setSignUpMessage("error");
+            console.log(e);
+          });
       }
     }
-  
+
     function handleOtpClick() {
-      console.log(otp);
-      if(otp===""){
+      // console.log(otp);
+      if (otp === "") {
         setTimer(true);
         setSignUpMessage("Enter otp");
-      }else{
+      } else {
         setCounterDisp(false);
-      axios
-        .post(window.serverurl + "/auth/verifyotp", {
-          email: signUp.email,
-          otp: otp,
-        })
-        .then((res) => {
-          console.log(res);
-          setCounterDisp(true);
-          if (res.data.status === "ok") {
-            setEmailTrack(signUp.email);
-            setSignUpEnable(true);
-            setCounter(timermax);
-            setTimer(false);
-            setSignUpMessage("");
-          } else {
-            setSignUpMessage(res.data.status);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      }}
-  
+        axios
+          .post(window.serverurl + "/auth/verifyotp", {
+            email: signUp.email,
+            otp: otp,
+          })
+          .then((res) => {
+            // console.log(res);
+            setCounterDisp(true);
+            if (res.data.status === "ok") {
+              setEmailTrack(signUp.email);
+              setSignUpEnable(true);
+              setCounter(timermax);
+              setTimer(false);
+              setSignUpMessage("");
+            } else {
+              setSignUpMessage(res.data.status);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    }
+
     const style = {
       height: "58px",
       width: "150px",
@@ -137,18 +151,18 @@ function SignUpModal(props) {
       marginTop: "9px",
       marginRight: "15px",
     };
-  
+
     if (counter === 0) {
       setTimer(false);
       setEmailTrack(null); //if not verified
       setCounter(timermax);
       setCounterDisp(true);
     }
-  
+
     React.useEffect(() => {
       counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
     }, [counter]);
-  
+
     if (signUp.email === "") {
       return <></>;
     } else {
@@ -178,7 +192,7 @@ function SignUpModal(props) {
                   </InputGroup.Text>
                   <Form.Control
                     onChange={(x) => {
-                      otp=x.target.value;
+                      otp = x.target.value;
                     }}
                     placeholder={
                       counterDisp
@@ -228,52 +242,13 @@ function SignUpModal(props) {
             alt=""
             height="45px"
           ></img>
-          Sign UP
+          Forgot password
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="signup-form">
-          <div className="mb-3 mt-2">
-            <h4 className="text-center">Please fill up your details</h4>
-          </div>
-
-          <div className="row">
-            <div className="col">
-              <FloatingLabel
-                controlId="firstName"
-                label="First Name"
-                className="mb-3"
-              >
-                {" "}
-                <Form.Control
-                  onChange={(e) => {
-                    setSignUp((x) => {
-                      return { ...x, ["firstName"]: e.target.value };
-                    });
-                  }}
-                  type="text"
-                  placeholder="First Name"
-                />{" "}
-              </FloatingLabel>
-            </div>
-            <div className="col">
-              <FloatingLabel
-                controlId="lastName"
-                label="Last Name"
-                className="mb-3"
-              >
-                {" "}
-                <Form.Control
-                  onChange={(e) => {
-                    setSignUp((x) => {
-                      return { ...x, ["lastName"]: e.target.value };
-                    });
-                  }}
-                  type="text"
-                  placeholder="Last Name"
-                />{" "}
-              </FloatingLabel>
-            </div>
+          <div className=" d-flex mb-3 mt-2 ">
+            <h4 className="text-center fs-5">Verify your email</h4>
           </div>
           <InputGroup>
             <FloatingLabel
@@ -319,6 +294,7 @@ function SignUpModal(props) {
               }}
               type="password"
               placeholder="Password"
+              value={rp}
             />{" "}
           </FloatingLabel>
         </div>
@@ -329,7 +305,7 @@ function SignUpModal(props) {
         )}
         {signUpEnable ? (
           <Button size="sm" onClick={handleSignUp} variant="outline-primary">
-            Sign up
+            reset password
           </Button>
         ) : (
           <Button
@@ -338,7 +314,7 @@ function SignUpModal(props) {
             variant="outline-primary"
             disabled
           >
-            Sign up
+            reset password
           </Button>
         )}
       </Modal.Footer>
@@ -346,4 +322,4 @@ function SignUpModal(props) {
   );
 }
 
-export default SignUpModal;
+export default ForgotPass;

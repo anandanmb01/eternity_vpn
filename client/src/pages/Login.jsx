@@ -10,6 +10,7 @@ import SignUpModal from "../components/SignUpModal";
 import UsrContext from "../context/UsrContext";
 import { useState, useContext, useRef } from "react";
 import Button from 'react-bootstrap/Button';
+import ForgotPass from "../components/ForgotPass";
 
 function handleGoogle(){
     window.open(window.serverurl+"/auth/google","_self");
@@ -25,6 +26,7 @@ function handleFacebook(){
 function Login(){
   const { user, setUser } = useContext(UsrContext);
     const [modalShow, setModalShow] = React.useState(false);
+    const [forgotModalShow, setForgotModalShow] = React.useState(false);
     const navigate =useNavigate();
     const [loginMessage,setLoginMessage] = useState("");
 
@@ -94,6 +96,12 @@ function Login(){
         {loginMessage!=="" && <div className="login-message">{loginMessage}</div>}
         <span onClick={() => setModalShow(true)}>Signup</span>
       </div>
+      <div className="d-flex flex-row justify-content-end w-100 ">
+        <span><p className="forgot-pass" onClick={()=>{
+          setForgotModalShow(true);
+
+        }}>forgot password</p></span>
+      </div>
     </>
   );
 }
@@ -120,8 +128,13 @@ function Login(){
                         <Inp/>  
                         <SignUpModal
                         show={modalShow}
-                        onHide={() => setModalShow(false)}
+                        onHide={() => {window.location.reload(false) ;setModalShow(false);}}
                         />            
+                        <ForgotPass
+                          show={forgotModalShow}
+                          onHide={() => {window.location.reload(false) ;setForgotModalShow(false);}}
+
+                        />
                     </form>
                 </div>
             </div>

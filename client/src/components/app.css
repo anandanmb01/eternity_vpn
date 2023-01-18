@@ -315,6 +315,13 @@ width: 300px;
     display: inline-block;
     float: none;
 }
+.forgot-pass{
+    color:gray;
+    font-size: x-small;
+}
+.forgot-pass:hover{
+    color: darkolivegreen;
+}
 /*  */
 
 @media (max-width: 1200px) {
