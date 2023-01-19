@@ -91,7 +91,7 @@ router_api.post("/vpn/createuser",async (req,res,next)=>{
         const date_ob=moment()
         date_ob.add(trialdays,"day")
           await User.updateOne({id:req.user.id}, { $set: { createdOn: today,expiry:date_ob} });
-          await Order.create({date:today,planId:-1});
+          await Order.create({date:today,planId:-1,userId:req.user.id,razorpay:{paymentId:"trial"},isPaid:false});
           req.user.createdOn=today;
           req.user.expiry=date_ob;
           await setVpnExp(req.body.hub_id,req.user.username,trialdays);

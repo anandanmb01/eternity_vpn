@@ -41,7 +41,8 @@ router.post('/payOrder', async (req, res) => {
       req.body;
     const newOrder = Order({
     // console.log(planId);
-    isPaid: true,
+      userId:req.user.id,
+      isPaid: true,
       date:moment(),
       planId:planId,
       razorpay: {
@@ -71,7 +72,7 @@ router.post('/payOrder', async (req, res) => {
 });
 
 router.post('/listOrders', async (req, res) => {
-  const orders = await Order.find();
+  const orders = await Order.find({userId:req.body.id});
   res.send(orders);
 });
 

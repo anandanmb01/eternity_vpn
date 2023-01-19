@@ -178,19 +178,3 @@ passport.serializeUser((user,done)=>{
 passport.deserializeUser((user,done)=>{
   done(null,user);
 });
-
-passport.deserializeUser((user,done)=>{
-  done(null,{
-    "_id" : ObjectId("63a336ed6d08f2cb749e7471"),
-    "name" : "Anandan_MB",
-    "username" : "anandanmb01_eternity",
-    "email" : "anandanmb01@gmail.com",
-    "photo" : "images/login.png",
-    "id" : "",
-    "authType" : "local",
-    "password" : "$2b$05$HMU9DeIg5f6qTd7wC8S0TuvYZAWxpZd9ugmuObgFBYlFQvj3SjUAK",
-    "__v" : 0,
-    "createdOn" : ISODate("2023-01-11T04:03:08.909Z"),
-    "expiry" : ISODate("2023-01-16T04:03:08.909Z")
-});
-});

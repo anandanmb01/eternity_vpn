@@ -68,8 +68,9 @@ function Login(){
       <div className="d-flex flex-row justify-content-between align-items-center mt-3">
       <Button variant="outline-primary" type="submit" size="sm" onClick={(e) => {
             e.preventDefault();
+            const emailsplit=login.username.split("@");
             axios
-              .post(window.serverurl + "/auth/login",{...login,["username"]:(login.username.split("@")[0]+"_eternity")})
+              .post(window.serverurl + "/auth/login",{...login,["username"]:(emailsplit[0]+"_"+emailsplit[1].split(".")[0]+"_eternity")})
               .then((r)=>{
                 if(r.data.redirect){
                   setUser(r.data.result);

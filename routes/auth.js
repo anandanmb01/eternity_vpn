@@ -75,8 +75,8 @@ router.post("/register",(req,res)=>{
   // console.log(req.body);
 
   // gen username
-  const i = req.body.email.split("@");
-  const uname=null;
+  let i = req.body.email.split("@");
+  let uname=null;
   try{uname=i[0]+"_"+i[1].split('.')[0]+"_eternity";}
   catch{uname=i[0]+"_eternity";}
 
