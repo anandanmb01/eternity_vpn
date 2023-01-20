@@ -6,6 +6,8 @@ import ListGroup from "react-bootstrap/ListGroup";
 import axios from "axios";
 import PaymentList from "../PaymentList";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import ChangePass from "../ChangePass";
+import { useState } from "react";
 
 const alertClicked = () => {
   alert("clicked");
@@ -13,11 +15,31 @@ const alertClicked = () => {
 
 function Avatar() {
   const [modalPayListShow, setModalPayListShow] = React.useState(false);
+  const [changePsk, setChangePsk] = React.useState(false);
+  const [data,setData] = useState([]);
+
+
 //   const navigate =useNavigate();
   const { user, setUser } = useContext(UsrContext);
 
-function getPayList(){
-  setModalPayListShow(true);
+
+function  handleChangePsk(){
+  setChangePsk(!changePsk);
+}
+
+function handlePayList(){
+
+    axios
+    .post(window.serverurl + "/payments/listOrders", {
+      id: user.id,
+    })
+    .then((d) => {
+      d = Object.values(d.data);
+      setData(d);
+      setModalPayListShow(true);
+      // console.log(d);
+    });
+    
 
 }
 
@@ -37,7 +59,7 @@ function getPayList(){
       
     }); 
 
-    // navigate("/")
+    window.location.reload(false);
 
   }
 
@@ -56,10 +78,10 @@ function getPayList(){
               </Popover.Header>
               <Popover.Body>
                 <ListGroup>
-                  <ListGroup.Item action onClick={getPayList}>
+                  <ListGroup.Item action onClick={handlePayList}>
                     Payment history
                   </ListGroup.Item>
-                  <ListGroup.Item action onClick={alertClicked}>
+                  <ListGroup.Item action onClick={handleChangePsk}>
                     change password
                   </ListGroup.Item>
                   <ListGroup.Item action onClick={alertClicked}>
@@ -84,8 +106,15 @@ function getPayList(){
       </span>
       <PaymentList
               show={modalPayListShow}
-              onHide={() => setModalPayListShow(false)}
+              onHide={()=>{setModalPayListShow(false);}}
+              data={data}
             /> 
+      <ChangePass
+          show={changePsk}
+          onHide={() => {setChangePsk(false);
+          }}
+          changepsk={{}}
+      />
     </div>
   );
 }

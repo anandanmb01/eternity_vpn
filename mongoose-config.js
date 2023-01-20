@@ -26,6 +26,8 @@ const User = mongoose.model('User', userSchema);
 
 const EmailVerify = mongoose.model('EmailVerify', emailVerifySchema);
 
+/////////////////////////////////////////////////////////////////////
+
 const OrderSchema = mongoose.Schema({
   isPaid: Boolean,
   date:Object,
@@ -38,20 +40,5 @@ const OrderSchema = mongoose.Schema({
   },
 });
 const Order = mongoose.model('Order', OrderSchema);
-
-// const usr = new User({
-//   name:"Anandan",
-//   username:"abc",
-//   email:"ab@c",
-//   photo:"///",
-//   id:"123",
-//   authType:"local",
-//   password:"abc"
-// })
-
-// usr.save()
-// User.find()
-//     .then(p => console.log(p))
-//     .catch(error => console.log(error));
 
 module.exports={User,EmailVerify,Order}

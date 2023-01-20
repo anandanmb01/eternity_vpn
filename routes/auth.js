@@ -162,4 +162,24 @@ router.post("/verifyotp",(req,res)=>{
   });
 })
 
+
+router.post("/changePassword",async (req, res) => {
+  bcrypt.hash(req.body.password,5).then(function(hash) {
+    mongooseUser.findOneAndUpdate({email: req.user.email }, {password:hash},(e,d)=>{
+      if (e){
+        console.log(e);
+        res.json({
+          status:"error occured during password change"
+        })
+      }else{
+        res.json({
+          status:"password changed sucessful"
+        })
+      }
+    
+  });
+  }).catch((e)=>{
+    console.log(e);
+  })})
+
 module.exports = router;

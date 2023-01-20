@@ -14,11 +14,12 @@ import AlertContext from "../context/AlertContext";
 
 const timermax = 300; //sec
 
-function ForgotPass(props) {
+function ChangePass(props) {
+
+
   const { setAlert } = useContext(AlertContext);
   let otp = "";
   const [counterDisp, setCounterDisp] = useState(true);
-  const [signUpEnable, setSignUpEnable] = useState(false);
   const [timer, setTimer] = useState(false);
   const [emailTrack, setEmailTrack] = useState(null);
   const navigate = useNavigate();
@@ -28,10 +29,39 @@ function ForgotPass(props) {
     password: "",
   });
 
-  // console.log(signUp)
   const [signUpMessage, setSignUpMessage] = useState("");
   const [rp, srp] = useState("");
-  // console.log(rp)
+
+
+  let changepskenable=false;
+  if (props.changepsk==null){
+    changepskenable=false
+  }else{
+    changepskenable=true;
+  }
+  const [signUpEnable, setSignUpEnable] = useState(changepskenable);
+
+
+  function handleChangePsk(){
+
+    if (signUp.password.length < 8) {
+      setSignUpMessage("password length less than 8");
+    } else {
+      if (signUp.password == rp) {
+        axios
+          .post(window.serverurl+"/auth/changePassword", {
+            password: signUp.password,
+          })
+          .then((resp) => {
+            setAlert(resp.data.status);
+            props.onHide();
+          });
+      } else {
+        setSignUpMessage("password mismatch");
+      }
+    }
+
+  }
 
   function handleSignUp() {
     if (signUp.email == "" || signUp.password == "") {
@@ -242,14 +272,16 @@ function ForgotPass(props) {
             alt=""
             height="45px"
           ></img>
-          Forgot password
+          {changepskenable?"Change password": "Forgot password"}
+          
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="signup-form">
           <div className=" d-flex mb-3 mt-2 ">
-            <h4 className="text-center fs-5">Verify your email</h4>
+            {changepskenable?<></>:<h4 className="text-center fs-5">Verify your email</h4>}
           </div>
+          {changepskenable?<></>:
           <InputGroup>
             <FloatingLabel
               controlId="email"
@@ -268,7 +300,7 @@ function ForgotPass(props) {
               />
             </FloatingLabel>
             <EmailBoxStatus />
-          </InputGroup>
+          </InputGroup>}
           <FloatingLabel controlId="password" label="Password" className="mb-3">
             {" "}
             <Form.Control
@@ -304,7 +336,7 @@ function ForgotPass(props) {
           <div className="login-message sign-up-footer">{signUpMessage}</div>
         )}
         {signUpEnable ? (
-          <Button size="sm" onClick={handleSignUp} variant="outline-primary">
+          <Button size="sm" onClick={()=>{changepskenable?handleChangePsk():handleSignUp()}} variant="outline-primary">
             reset password
           </Button>
         ) : (
@@ -322,4 +354,4 @@ function ForgotPass(props) {
   );
 }
 
-export default ForgotPass;
+export default ChangePass;
