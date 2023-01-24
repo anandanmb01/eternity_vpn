@@ -278,6 +278,9 @@ align-items: center;
 .vpn-usr-disp{
     background-color: rgba(0,0,0,0);
 }
+.cursor-pointer{
+    cursor: pointer;
+}
 .content-left{
     display: flex;
     align-items: center;

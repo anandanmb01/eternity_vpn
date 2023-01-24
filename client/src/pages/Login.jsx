@@ -109,7 +109,7 @@ function Login(){
       </div>
     </Form>
           <div className="d-flex flex-row justify-content-end w-100 ">
-        <span><p className="forgot-pass" onClick={()=>{
+        <span><p className="forgot-pass mt-1 cursor-pointer" onClick={()=>{
           setForgotModalShow(true);
 
         }}>forgot password</p></span>
