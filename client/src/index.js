@@ -7,12 +7,14 @@ import { UsrProvider } from "./context/UsrContext.js";
 import { VpnUsrProvider } from "./context/VpnUsrContext.js";
 import { AlertProvider } from "./context/AlertContext.js";
 import { CookiesProvider } from 'react-cookie';
+import { PayToastEnableProvider } from "./context/PayToastEnableContext.js";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   <CookiesProvider>
+  <PayToastEnableProvider>
   <AlertProvider>
   <UsrProvider>
   <HubProvider>
@@ -26,6 +28,7 @@ root.render(
     </HubProvider>
   </UsrProvider>
   </AlertProvider>
+  </PayToastEnableProvider>
   </CookiesProvider>
 
   // </React.StrictMode>

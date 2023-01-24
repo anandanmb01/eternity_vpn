@@ -4,12 +4,16 @@ import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import { Button } from 'react-bootstrap';
 import PlaymentPlans from './PlaymentPlans';
+import {useContext} from "react";
+import PayToastEnableContext from '../../context/PayToastEnableContext';
 
 function PayToast(props) {
+  let {PayToastEnable_} = useContext(PayToastEnableContext);
   const [paymentPlan, setPaymentPlan] = React.useState(false);
   if(!paymentPlan){
   return (
     <>
+    {PayToastEnable_?
         <ToastContainer className="p-3 pt-4 mt-5 me-5" style={{width:"650px"}} position={`top-end`}>
           <Toast style={{width:"500px"}}>
             <Toast.Header closeButton={false}>
@@ -33,6 +37,7 @@ function PayToast(props) {
             </Toast.Body>
           </Toast>
         </ToastContainer>
+        :<></>}
     </>
   );
 }

@@ -9,12 +9,11 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import ChangePass from "../ChangePass";
 import { useState } from "react";
 import ImageUploaderModal from "../../ImageUploaderModal";
+import PayToastEnableContext from "../../context/PayToastEnableContext";
 
-const alertClicked = () => {
-  alert("clicked");
-};
 
 function Avatar() {
+  let {PayToastEnable_,setPayToastEnable_}  = useContext(PayToastEnableContext);
   const [modalPayListShow, setModalPayListShow] = React.useState(false);
   const [modalPicShow, setModalPicShow] = React.useState(false);
 
@@ -104,6 +103,9 @@ function handlePicUpload(){
           alt=""
           width="35px"
           height="35px"
+          onClick={()=>{
+            setPayToastEnable_(!PayToastEnable_);
+          }}
         />
       </OverlayTrigger>
       <span id="logout" onClick={handleLogout}>
