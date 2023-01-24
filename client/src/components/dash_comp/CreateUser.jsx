@@ -8,7 +8,6 @@ import HubContext from "../../context/HubContext";
 import AlertContext from "../../context/AlertContext";
 import { Button } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
-import VpnUsrContext from "../../context/VpnUsrContext";
 import Spinner from 'react-bootstrap/Spinner';
 
 function CreateUser(){
@@ -17,44 +16,51 @@ function CreateUser(){
     const {hubSelect,} = useContext(HubContext);
     const [pass,setPass]=useState("");
     const navigate = useNavigate();
-    const { vpnUsr, setVpnUsr } = useContext(VpnUsrContext);
-        const [loading,setLoadig]=useState(false);
+    const [message,setMessage] = useState("");
+    const [loading,setLoadig]=useState(false);
 
 
      function userCreate(event) {
-      setLoadig(true);
-       event.preventDefault();
-       axios({
-         method: "post",
-         url: window.serverurl + "/api/vpn/createuser",
-         data: {
-           hub_id: hubSelect,
-           password: pass,
-         },
-       })
-         .then((res) => {
-           //  console.log(res.data);
-           if (res.data.redirect) {
-             navigate("/login");
-           } else {
-             if (res.data.error) {
-               setAlert("user not created");
-             } else {
-               setAlert("user created");
-                window.location.reload(false);
-               //  navigate("/dashboard/user");
+      if(pass.length < 6){
+        setMessage("password length must be > 5");
+      }else{
+        setMessage("");
+        setLoadig(true);
+        event.preventDefault();
+        axios({
+          method: "post",
+          url: window.serverurl + "/api/vpn/createuser",
+          data: {
+            hub_id: hubSelect,
+            password: pass,
+          },
+        })
+          .then((res) => {
+            //  console.log(res.data);
+            if (res.data.redirect) {
+              navigate("/login");
+            } else {
+              if (res.data.error) {
+                setAlert("user not created");
+              } else {
+                setAlert("user created");
+                 window.location.reload(false);
+                //  navigate("/dashboard/user");
+ 
+              }
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          })
+          .finally(()=>{
+           setLoadig(false);
+          })
+      }
 
-             }
-           }
-         })
-         .catch((e) => {
-           console.log(e);
-         })
-         .finally(()=>{
-          setLoadig(false);
-         })
      }
     
+      
     return (
         <div className="card card-style-usr-create">
         <Form>
@@ -72,9 +78,13 @@ function CreateUser(){
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
             </Form.Group>
+            <div className="d-flex flex-row justify-content-between">
             <Button variant="outline-secondary" size="sm" onClick={userCreate}>
-              {loading?<><Spinner as="span"animation="grow"size="sm"role="status"aria-hidden="true"/>&nbsp;Loading...&nbsp;</>:`create`}
+              {loading?<><Spinner as="span" animation="grow" size="sm" role="status"aria-hidden="true"/>&nbsp;Loading...&nbsp;</>:`create`}
             </Button>
+            <p className="mb-0 me-3 text-danger">{`${message}`}</p>
+            </div>
+
           </Form>
         </div>
     );

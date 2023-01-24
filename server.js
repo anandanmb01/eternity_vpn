@@ -64,7 +64,6 @@ if ((process.env.NODE_ENV || "development")=="production"){
 const passportConfig = require("./passport-config");
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(httpsOptions, app);
-const {nodemailer_route} = require('./nodemailer-config');
 
 
 
@@ -120,7 +119,6 @@ app.use(passport.session());
 app.use("/auth", authRouter);
 app.use("/api", apiRouter);
 app.use("/payments", paymentRouter);
-app.use("/nodemailer", nodemailer_route);
 
 
 

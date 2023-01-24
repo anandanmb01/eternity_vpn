@@ -127,8 +127,12 @@ function UserDashboard() {
 
   function ChangeUsrPsk(){
     const [pass_,setPass_]=useState("");
+    const [message_,setMessage_] = useState("");
 
   function userPassUpdate(event){
+    if(pass_.length < 6){
+        setMessage_("password length must be > 5");
+      }else{
     
       event.preventDefault();
       setLoadig(true);
@@ -149,7 +153,7 @@ function UserDashboard() {
         setLoadig(false);
       })
 
-
+    }
   }
 
   return(
@@ -166,9 +170,9 @@ function UserDashboard() {
       <input type="password" name="password" className="form-control" id="inputPassword" placeholder="Password" onChange={(event)=>{setPass_(event.target.value)}} value={pass_} />
     </div>
   </div>
-  <div className="local-dignup-btn-gp">
-    <button className="btn btn-outline-primary btn-sm" onClick={userPassUpdate} >{loading?<><Spinner as="span"animation="grow"size="sm"role="status"aria-hidden="true"/>&nbsp;Loading...&nbsp;</>:`Change password `}</button>
-    <span></span>
+  <div className=" d-flex flex-row justify-content-between local-dignup-btn-gp">
+  <button className="btn btn-outline-primary btn-sm" onClick={userPassUpdate} >{loading?<><Spinner as="span"animation="grow"size="sm"role="status"aria-hidden="true"/>&nbsp;Loading...&nbsp;</>:`Change password `}</button>
+  <p className="mb-0 me-3 text-danger">{`${message_}`}</p>
     </div>
       </div>
   )

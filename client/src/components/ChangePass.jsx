@@ -62,7 +62,7 @@ function ChangePass(props) {
         
       }else{
         setSignUpMessage("password mismatch");
-        setSignUpMessage("");s
+        setSignUpMessage("");
         srp("");
       }
     }
