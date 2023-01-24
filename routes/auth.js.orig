@@ -75,7 +75,11 @@ router.post("/register",(req,res)=>{
   // console.log(req.body);
 
   // gen username
+<<<<<<< HEAD
+  const i = req.body.email.split("@");
+=======
   let i = req.body.email.split("@");
+>>>>>>> loader
   let uname=null;
   try{uname=i[0]+"_"+i[1].split('.')[0]+"_eternity";}
   catch{uname=i[0]+"_eternity";}
@@ -163,26 +167,8 @@ router.post("/verifyotp",(req,res)=>{
 })
 
 
-router.post("/changePassword",async (req, res) => {
-  bcrypt.hash(req.body.password,5).then(function(hash) {
-    mongooseUser.findOneAndUpdate({email: req.user.email }, {password:hash},(e,d)=>{
-      if (e){
-        console.log(e);
-        res.json({
-          status:"error occured during password change"
-        })
-      }else{
-        res.json({
-          status:"password changed sucessful"
-        })
-      }
-    
-  });
-  }).catch((e)=>{
-    console.log(e);
-  })})
-
-  router.post("/checkmail",(req, res) => {
+<<<<<<< HEAD
+router.post("/checkmail",(req, res) => {
   console.log(req.body.email);
 
   mongooseUser.find({email:req.body.email})
@@ -204,16 +190,32 @@ router.post("/resetpassword",async (req, res) => {
       }else{
         res.json({
           status:"password reset sucessful"
+=======
+router.post("/changePassword",async (req, res) => {
+  bcrypt.hash(req.body.password,5).then(function(hash) {
+    mongooseUser.findOneAndUpdate({email: req.user.email }, {password:hash},(e,d)=>{
+      if (e){
+        console.log(e);
+        res.json({
+          status:"error occured during password change"
+        })
+      }else{
+        res.json({
+          status:"password changed sucessful"
+>>>>>>> loader
         })
       }
     
   });
   }).catch((e)=>{
     console.log(e);
+<<<<<<< HEAD
   })
 
 
 });
-
+=======
+  })})
+>>>>>>> loader
 
 module.exports = router;

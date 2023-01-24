@@ -26,7 +26,7 @@ function PayToast(props) {
               {props.message}
               </marquee>
               <div className="text-end">
-              <Button size="sm" variant="light" onClick={() => setPaymentPlan(true)} >buy plans</Button>
+              <Button size="sm" variant="outline-secondary" onClick={() => setPaymentPlan(true)} >buy plans&nbsp;</Button>
 
               </div>
               

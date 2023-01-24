@@ -14,6 +14,7 @@ mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGODB_URL);
 const morganBody = require ('morgan-body');
 
+
 const httpPort = 80;
 const httpsPort=443;
 const clientPort=3000;
@@ -44,8 +45,8 @@ if ((process.env.NODE_ENV || "development")=="production"){
 
 }else{
   console.log("development server")
-  global.serverUrl = `http://localhost:${port}`;
-  global.clientUrl = `http://localhost:${clientPort}`;
+  global.serverUrl = `http://127.0.0.1:${port}`;
+  global.clientUrl = `http://127.0.0.1:${clientPort}`;
   app.use(
         cors({
           origin: ["http://127.0.0.1:5000","http://127.0.0.1:3000","http://localhost:5000","http://localhost:3000"],
@@ -63,6 +64,7 @@ if ((process.env.NODE_ENV || "development")=="production"){
 const passportConfig = require("./passport-config");
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(httpsOptions, app);
+const {nodemailer_route} = require('./nodemailer-config');
 
 
 
@@ -72,6 +74,11 @@ const paymentRouter = require("./routes/payments");
 
 
 //--------------------------Middleware initilization---------------------------------//
+
+
+
+
+
 
 // support parsing of application/json type post data
 
@@ -83,8 +90,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // set the view engine to ejs
 app.set("view engine", "ejs");
 
-app.use(express.static("public"));
-app.use(express.static(path.join(__dirname,"/client/build")));
+app.use(express.static(__dirname+"/uploads"));
+app.use(express.static(path.join(__dirname+"/client/build")));
 
 app.use(
   session({
@@ -113,6 +120,7 @@ app.use(passport.session());
 app.use("/auth", authRouter);
 app.use("/api", apiRouter);
 app.use("/payments", paymentRouter);
+app.use("/nodemailer", nodemailer_route);
 
 
 
@@ -142,4 +150,3 @@ if(process.env.NODE_ENV==="production"){
     console.log(`server started on port ${port}`);
   });
 }
-

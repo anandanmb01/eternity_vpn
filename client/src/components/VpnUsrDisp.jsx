@@ -97,10 +97,11 @@ function VpnUsrDisp(props) {
           >
             User guide&emsp;
             {vpnUsrGuide && (
+              <>
               <div
                 className="spinner-border text-dark spinner-border-sm"
                 role="status"
-              ></div>
+              ></div>&nbsp;</>
             )}
           </Button>
         </>

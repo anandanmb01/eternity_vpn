@@ -10,10 +10,12 @@ import SignUpModal from "../components/SignUpModal";
 import UsrContext from "../context/UsrContext";
 import { useState, useContext, useRef } from "react";
 import Button from 'react-bootstrap/Button';
+<<<<<<< HEAD
+import ForgotPass from "../components/ForgotPass";
+=======
 import Form from 'react-bootstrap/Form';
 import { FormText } from "react-bootstrap";
 import LoginElement from "../components/LoginElement";
-import ForgotPass from "../components/ForgotPass";
 
 
 async function getuserimg(){
@@ -31,6 +33,7 @@ async function getuserimg(){
   return(out);
 }
 
+>>>>>>> loader
 
 function handleGoogle(){
     window.open(window.serverurl+"/auth/google","_self");
@@ -60,7 +63,7 @@ function Login(){
 
 
   return (
-    <div className="d-flex flex-column justify-content-around h-100">
+    <form className="d-flex flex-column justify-content-around h-100">
 
       <Form >
       <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -107,14 +110,18 @@ function Login(){
       signup
       </Button>
       </div>
-    </Form>
-          <div className="d-flex flex-row justify-content-end w-100 ">
+<<<<<<< HEAD
+      <div className="d-flex flex-row justify-content-end w-100 ">
         <span><p className="forgot-pass" onClick={()=>{
           setForgotModalShow(true);
 
         }}>forgot password</p></span>
       </div>
-    </div>
+    </>
+=======
+    </Form>
+    </form>
+>>>>>>> loader
   );
 }
 
@@ -140,15 +147,19 @@ function Login(){
                         <Inp/>  
                         <SignUpModal
                         show={modalShow}
-                        onHide={() => setModalShow(false)}
-                        />
+                        onHide={() => {window.location.reload(false) ;setModalShow(false);}}
+                        />            
+<<<<<<< HEAD
                         <ForgotPass
                           show={forgotModalShow}
                           onHide={() => {window.location.reload(false) ;setForgotModalShow(false);}}
 
-                        />            
+                        />
+                    </form>
+=======
                     </div>
                     {/* <LoginElement/> */}
+>>>>>>> loader
                 </div>
             </div>
             

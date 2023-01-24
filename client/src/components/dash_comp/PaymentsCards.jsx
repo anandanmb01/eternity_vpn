@@ -10,7 +10,6 @@ import HubContext from '../../context/HubContext';
 function PaymentsCards(props) {
   const [loading, setLoading] = useState(false);
   const {setAlert} = useContext(AlertContext);
-  const navigate = useNavigate();
   const {hubSelect} = useContext(HubContext);
 
   ////////////////////////////
@@ -86,7 +85,7 @@ function PaymentsCards(props) {
   // console.log(props.data)
   return (
     <Card className="my-4 mx-3 " style={{ width: '15rem' }}>
-      {/* <Card.Img className="m-1 mt-3 w-auto h-auto" variant="top" src={props.data.photoUrl} /> */}
+      <Card.Img className="m-1 mt-3 w-auto h-auto rounded mb-4" variant="top" src={props.data.photoUrl} />
       <Card.Body>
         <Card.Title><h4>{props.data.name}</h4></Card.Title>
         <Card.Text>
@@ -98,7 +97,7 @@ function PaymentsCards(props) {
         </ul>
         </Card.Text>
         <div className="row">
-            <Button disabled={loading} onClick={loadRazorpay} className="mb-2 mx-auto" variant="primary">{loading ? <div>Loading...</div> : <div>Buy now</div>}</Button>
+            <Button disabled={loading} onClick={loadRazorpay} className="mb-2 mx-auto" size="sm" variant="outline-primary">{loading ? <div>Loading...</div> : <div>Buy now</div>}</Button>
         </div>
       </Card.Body>
     </Card>
