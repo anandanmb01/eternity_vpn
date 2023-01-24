@@ -7,6 +7,8 @@ const moment = require("moment");
 const multer = require('multer');
 const fs = require('fs');
 const axios = require('axios');
+const path = require('path');
+
 
 const {
   vpncmd,
@@ -185,7 +187,7 @@ router_api.post("/getimg", async (req, res) => {
       return res.status(404).send({ error: "User not found" });
     }else{
             if (user.imgpath) {
-              const filePath = `${__dirname}/${user.imgpath}`;
+              const filePath = path.join(__dirname, "/../",user.imgpath);
               return res.status(200).sendFile(filePath, {}, (err) => {
                 if (err) {
                   return res.status(500).send(err);
@@ -202,7 +204,8 @@ router_api.post("/getimg", async (req, res) => {
                 res.set("Content-Type", "image/jpeg");
                 return res.status(200).send(data);
               }else{
-                return res.sendFile(`login.png`)
+                const filePath = path.join(__dirname, "/../uploads/","login.png");
+                return res.sendFile(filePath)
               }
             }
           }
