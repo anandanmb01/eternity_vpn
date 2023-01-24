@@ -14,6 +14,23 @@ import Form from 'react-bootstrap/Form';
 import { FormText } from "react-bootstrap";
 import LoginElement from "../components/LoginElement";
 
+
+async function getuserimg(){
+  let out = {}; 
+  try{
+    let response = await axios({
+      method: 'post',
+      url: window.serverurl+"/api/getimg",
+      responseType: 'blob',
+    });
+    out = URL.createObjectURL(response.data);
+  }catch(e){
+    console.log(e);
+  }
+  return(out);
+}
+
+
 function handleGoogle(){
     window.open(window.serverurl+"/auth/google","_self");
 }
@@ -128,3 +145,4 @@ function Login(){
 }
 
 export default Login;
+export {getuserimg};

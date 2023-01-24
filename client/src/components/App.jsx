@@ -5,7 +5,8 @@ import Header from "./Header";
 import Home from "../pages/Home";
 import Footer from "./Footer";
 import Dashboard from "../pages/Dashboard";
-import Login from "../pages/Login";
+import Login, { getuserimg } from "../pages/Login";
+
 import axios from "axios";
 import UserDashboard from "../pages/UserDashboard";
 import UsrContext from "../context/UsrContext";
@@ -40,16 +41,17 @@ function App() {
   setTimeout(()=>{setLoading(false)},1000);
   //--------Axios fetch ---------------//
   useEffect(() => {
-    axios
-      .post(window.serverurl + "/auth/getusr")
-      .then((res) => {
-        setUser(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {});
-      // eslint-disable-next-line
+    axios.post(window.serverurl + "/auth/getusr")
+    .then(async (res) => {
+      const d  = res.data.user;
+      if(d){
+        const url = await getuserimg();
+        setUser({...d,["photo"]:url});
+      }
+    })
+    .catch((err) => {
+      console.log("An error occured while getting the user: ",err);
+    });
   }, []);
 
 
