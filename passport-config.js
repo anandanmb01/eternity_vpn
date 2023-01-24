@@ -20,31 +20,33 @@ passport.use(new GoogleStrategy({
   function(accessToken, refreshToken, profile, done) {
     const hash_ = md5(profile.id+"_google");
 
-    mongooseUser.findOne({id:hash_},(e,d)=>{
+    mongooseUser.findOne({id:hash_},async (e,d)=>{
       // console.log(d);
       if(e){
         return done(e);
       }else{
 
         if(d==null){
+          const password = await bcrypt.hash(Math.random().toString(36),10)
           const usr={
-            username:profile.emails[0].value.split("@")[0]+`_google`,
+            username:profile.emails[0].value.split("@")[0]+`_gmail`+`_eternity`,
             name:profile.displayName.split(" ").join("_"),
             id:hash_,
             email:profile.emails[0].value,
             photo:profile.photos[0].value,
-            authType:"google"
+            authType:"google",
+            password:password,
           }
           mongooseUser.insertMany([usr],(e,data)=>{
             if(e){
               return done(e);
             }
             if(data){
-              return done(null,data);
+              return done(null,usr);
             }
           });
         }else{
-          return done(null,d);
+          return done(null,{username:d.username,name:d.name,id:d.id,email:d.email,authType:d.authType,expiry:d.expiry,accounts:d.accounts,createdOn:d.createdOn,});
         }
       }
     });
@@ -82,11 +84,11 @@ function(accessToken, refreshToken, profile, done) {
             return done(e);
           }
           if(data){
-            return done(null,{username:usr.username,name:usr.name,id:usr.id,email:usr.email,photo:usr.photo,});
+            return done(null,{usr});
           }
         });
       }else{
-        return done(null,{username:d.username,name:d.name,id:d.id,email:d.email,photo:d.photo,});
+        return done(null,{username:d.username,name:d.name,id:d.id,email:d.email,authType:d.authType,expiry:d.expiry,accounts:d.accounts,createdOn:d.createdOn,});
       }
     }
   });
@@ -126,11 +128,11 @@ function(accessToken, refreshToken, profile, cb) {
             return done(e);
           }
           if(data){
-            return done(null,{username:usr.username,name:usr.name,id:usr.id,email:usr.email,photo:usr.photo,});
+            return done(null,{usr});
           }
         });
       }else{
-        return done(null,{username:d.username,name:d.name,id:d.id,email:d.email,photo:d.photo,});
+        return done(null,{username:d.username,name:d.name,id:d.id,email:d.email});
       }
     }
   });
@@ -142,23 +144,24 @@ function(accessToken, refreshToken, profile, cb) {
 passport.use(new LocalStrategy(
   function(username, password, done) {
       mongooseUser.findOne({username:username})
-      .then(res =>{
-        // console.log(res);
-        if (res===null){
+      .then(d =>{
+        // console.log(d);
+        if (d===null){
           // console.log("user not found");
           return done(null, false);
           
-        }else{
-          bcrypt.compare(password, res.password).then(function(result) {
-          if (result){
-            // console.log("user found passward match");
-            return done(null, res)
-          }
-          else{
-            // console.log("user found password mismatch");
-            return done(null, false);
-          }
-        });
+        }else{                                                                                                                                                
+            bcrypt.compare(password, d.password ).then(function(result) {
+              if (result){
+                // console.log("user found passward match");
+                return done(null, {username:d.username,name:d.name,id:d.id,email:d.email,authType:d.authType,expiry:d.expiry,accounts:d.accounts,createdOn:d.createdOn,})
+              }
+              else{
+                // console.log("user found password mismatch");
+                return done(null, false);
+              }
+            });       
+
         }
         
       })

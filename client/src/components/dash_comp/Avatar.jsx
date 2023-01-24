@@ -8,6 +8,7 @@ import PaymentList from "../PaymentList";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import ChangePass from "../ChangePass";
 import { useState } from "react";
+import ImageUploaderModal from "../../ImageUploaderModal";
 
 const alertClicked = () => {
   alert("clicked");
@@ -15,6 +16,8 @@ const alertClicked = () => {
 
 function Avatar() {
   const [modalPayListShow, setModalPayListShow] = React.useState(false);
+  const [modalPicShow, setModalPicShow] = React.useState(false);
+
   const [changePsk, setChangePsk] = React.useState(false);
   const [data,setData] = useState([]);
 
@@ -39,10 +42,12 @@ function handlePayList(){
       setModalPayListShow(true);
       // console.log(d);
     });
-    
 
 }
 
+function handlePicUpload(){
+  setModalPicShow(!modalPicShow);
+}
 
   function handleLogout(event){
     event.preventDefault();
@@ -84,7 +89,7 @@ function handlePayList(){
                   <ListGroup.Item action onClick={handleChangePsk}>
                     change password
                   </ListGroup.Item>
-                  <ListGroup.Item action onClick={alertClicked}>
+                  <ListGroup.Item action onClick={handlePicUpload}>
                     change avatar
                   </ListGroup.Item>
                 </ListGroup>
@@ -114,6 +119,11 @@ function handlePayList(){
           onHide={() => {setChangePsk(false);
           }}
           changepsk={{}}
+      />
+      <ImageUploaderModal
+                  show={modalPicShow}
+          onHide={() => {setModalPicShow(false);
+          }}
       />
     </div>
   );

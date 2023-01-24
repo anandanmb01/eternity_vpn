@@ -7,10 +7,10 @@ const mongoose = require('mongoose');
     id:String,
     authType:String,
     password:String,
-    authType:String,
     expiry:Object,
     accounts:Object,
     createdOn:Object,
+    imgpath:String,
 
 });
 

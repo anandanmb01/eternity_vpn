@@ -54,10 +54,16 @@ function ChangePass(props) {
           })
           .then((resp) => {
             setAlert(resp.data.status);
+            srp("");
+            setSignUpMessage("");
             props.onHide();
-          });
-      } else {
+          })
+          .finally(()=>{srp("")});
+        
+      }else{
         setSignUpMessage("password mismatch");
+        setSignUpMessage("");s
+        srp("");
       }
     }
 
