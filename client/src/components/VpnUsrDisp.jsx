@@ -6,7 +6,6 @@ import { useState } from "react";
 import HubContext from "../context/HubContext";
 import VpnUsrGuide from "./dash_comp/VpnUsrGuide";
 import { Button } from "react-bootstrap";
-
 function VpnUsrDisp(props) {
   const { vpnUsr } = useContext(VpnUsrContext);
   const { user } = useContext(UsrContext);
@@ -85,7 +84,7 @@ function VpnUsrDisp(props) {
             </tbody>
           </table>
         </div>
-        <>
+        <div className="d-flex justify-content-between">
           <Button
             size="sm"
             variant="outline-secondary"
@@ -104,7 +103,9 @@ function VpnUsrDisp(props) {
               ></div>&nbsp;</>
             )}
           </Button>
-        </>
+
+
+        </div>
       </div>
       {vpnUsrGuide && <VpnUsrGuide />}
     </div>
