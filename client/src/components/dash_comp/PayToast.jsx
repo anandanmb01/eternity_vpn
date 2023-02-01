@@ -14,7 +14,7 @@ function PayToast(props) {
   return (
     <>
     {PayToastEnable_?
-        <ToastContainer className="p-3 pt-4 mt-5 me-5" style={{width:"650px"}} position={`top-end`}>
+        <ToastContainer id="paytoast" className="p-3 pt-4 mt-5 me-5" position={`top-end`}>
           <Toast style={{width:"500px"}}>
             <Toast.Header closeButton={false}>
               <img

@@ -324,6 +324,11 @@ width: 300px;
 .forgot-pass:hover{
     color: darkolivegreen;
 }
+
+#paytoast{
+    width:  650px;
+}
+
 /*  */
 
 @media (max-width: 1200px) {
@@ -357,7 +362,10 @@ width: 300px;
         font-family: 'Zen Dots', cursive;
         margin-bottom: 30px;
     }
-
+    
+    #paytoast{
+        width:  530px;
+    }
 
 }
 @media (max-width: 768px) {
