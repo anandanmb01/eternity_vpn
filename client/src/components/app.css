@@ -358,4 +358,13 @@ width: 300px;
         margin-bottom: 30px;
     }
 
+
+}
+@media (max-width: 768px) {
+    .user-dashboard{
+        margin-top: 150px;
+    }
+
+
+
 }

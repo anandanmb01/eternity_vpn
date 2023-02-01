@@ -23,7 +23,7 @@ const navigate =useNavigate();
                     <img src="/images/infinity.png" alt="" />
                     
                 </div>
-                <div className="col-lg-6 content-right">
+                <div className="col-lg content-right">
                     <div id="content-div">
                         <h1>Eternity VPN</h1>
                         <p className="container-fluid">Eternity-VPN is a free vpn hosted on mumbai based amazon aws server capale of delivering high speed encrypted connectivity to all sort of devices platforms like Windows, Linux, Mac,Ios and Android, Login in to connect to vpn</p>
