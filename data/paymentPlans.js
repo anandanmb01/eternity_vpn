@@ -3,7 +3,7 @@ paymentPlans=[{
     name:"Plan 1",
     noOfHub:1,
     noOfDays:30,
-    amount:149,
+    amount:14900,
     photoUrl:"https://institute.global/sites/default/files/styles/teaser_large/public/2021-06/GettyImages-1165900389.jpg?itok=DQJZ8lK1",
 },
 {
@@ -11,7 +11,7 @@ paymentPlans=[{
     name:"Plan 2",
     noOfHub:3,
     noOfDays:30,
-    amount:199,
+    amount:19900,
     photoUrl:"https://institute.global/sites/default/files/styles/teaser_large/public/2021-06/GettyImages-1165900389.jpg?itok=DQJZ8lK1",
 },
 {
@@ -19,7 +19,7 @@ paymentPlans=[{
     name:"Plan 3",
     noOfHub:5,
     noOfDays:30,
-    amount:249,
+    amount:24900,
     photoUrl:"https://institute.global/sites/default/files/styles/teaser_large/public/2021-06/GettyImages-1165900389.jpg?itok=DQJZ8lK1",
 },
 {
@@ -27,7 +27,7 @@ paymentPlans=[{
     name:"Plan 4",
     noOfHub:1,
     noOfDays:60,
-    amount:299,
+    amount:29900,
     photoUrl:"https://institute.global/sites/default/files/styles/teaser_large/public/2021-06/GettyImages-1165900389.jpg?itok=DQJZ8lK1",
 },
 {
@@ -35,7 +35,7 @@ paymentPlans=[{
     name:"Plan 5",
     noOfHub:3,
     noOfDays:60,
-    amount:349,
+    amount:34900,
     photoUrl:"https://institute.global/sites/default/files/styles/teaser_large/public/2021-06/GettyImages-1165900389.jpg?itok=DQJZ8lK1",
 },
 {
@@ -43,7 +43,7 @@ paymentPlans=[{
     name:"Plan 6",
     noOfHub:5,
     noOfDays:60,
-    amount:399,
+    amount:39900,
     photoUrl:"https://institute.global/sites/default/files/styles/teaser_large/public/2021-06/GettyImages-1165900389.jpg?itok=DQJZ8lK1",
 },
 ]

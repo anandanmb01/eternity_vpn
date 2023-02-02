@@ -93,7 +93,7 @@ function PaymentsCards(props) {
             <li><h6>Unlimited data</h6></li>
             <li><h6>{`${props.data.noOfHub} hub acess`}</h6></li>
             <li><h6>{`${props.data.noOfDays} days validity`}</h6></li>
-            <li><h6>{`@ ${props.data.amount}/month`}</h6></li>
+            <li><h6>{`@ ${props.data.amount/100}/month`}</h6></li>
         </ul>
         </Card.Text>
         <div className="row">
