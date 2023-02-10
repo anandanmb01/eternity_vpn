@@ -11,6 +11,8 @@
 <li>L2TPv3/IPsec</li>
 <li>EtherIP/IPsec</li>
 </ul>
+Load Balancing and DDOS attaxk prevemtion is implimented using <strong>Ngnix</strong> as a reverse proxy for vpn server and as static file sharing for website deployment
+
 The platform also offers support for <strong>Google, Facebook, Github, and local login, with a unique user ID generated through an MD5 hash for authentication</strong>.
 
 In addition to its robust VPN capabilities, Eternity VPN also offers a user-friendly web interface for VPN profile management, with support for different payment plans. The platform utilizes <strong>MomentJS</strong> for time calculations, <strong>Multer</strong> for multi-parameter passing, and for blob file management. Additionally, the platform is integrated with Razorpay for easy payment processing.
