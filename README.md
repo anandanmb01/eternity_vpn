@@ -11,7 +11,7 @@
 <li>L2TPv3/IPsec</li>
 <li>EtherIP/IPsec</li>
 </ul>
-Load Balancing and DDOS attaxk prevemtion is implimented using <strong>Ngnix</strong> as a reverse proxy for vpn server and as static file sharing for website deployment
+Load Balancing and DDOS attack prevemtion is implimented using <strong>Ngnix</strong> as a reverse proxy for vpn server and as static file sharing for website deployment
 
 The platform also offers support for <strong>Google, Facebook, Github, and local login, with a unique user ID generated through an MD5 hash for authentication</strong>.
 
