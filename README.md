@@ -19,4 +19,4 @@ In addition to its robust VPN capabilities, Eternity VPN also offers a user-frie
 
 In conclusion, Eternity VPN is a comprehensive VPN solution that offers advanced VPN protocols, user activity tracking, and a user-friendly web interface for VPN profile management, along with different payment plans.
 
-![output](https://github.com/anandanmb01/anandanmb01/eternity_vpn/blob/master/client/public/images/output.png)
+![output](/anandanmb01/eternity_vpn/blob/master/client/public/images/output.png)
