@@ -18,3 +18,5 @@ The platform also offers support for <strong>Google, Facebook, Github, and local
 In addition to its robust VPN capabilities, Eternity VPN also offers a user-friendly web interface for VPN profile management, with support for different payment plans. The platform utilizes <strong>MomentJS</strong> for time calculations, <strong>Multer</strong> for multi-parameter passing, and for blob file management. Additionally, the platform is integrated with Razorpay for easy payment processing.
 
 In conclusion, Eternity VPN is a comprehensive VPN solution that offers advanced VPN protocols, user activity tracking, and a user-friendly web interface for VPN profile management, along with different payment plans.
+
+![output](https://github.com/anandanmb01/anandanmb01/eternity_vpn/blob/master/client/public/images/output.png)
